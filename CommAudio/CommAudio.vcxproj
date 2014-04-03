@@ -77,24 +77,34 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="ServerMulticast.cpp" />
     <ClCompile Include="MyForm.cpp" />
+    <ClCompile Include="ServerMulticast.cpp" />
     <ClCompile Include="Components.cpp" />
     <ClCompile Include="ServerTcp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GlobalShared.h" />
     <ClInclude Include="Master.h" />
-    <ClInclude Include="MyForm.h">
+    <ClInclude Include="ClientGUI.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Components.h" />
+    <ClInclude Include="MyForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SmallStructs.h" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ClientGUI.resx">
+      <DependentUpon>ClientGUI.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CommAudio.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,5 @@
 #include "Master.h"
+#include "ClientGUI.h"
 
 using namespace std;
 
@@ -22,9 +23,6 @@ namespace CommAudio {
 		MyForm(void)
 		{
 			InitializeComponent();
-
-			initWSA();
-
 			//
 			//TODO: Add the constructor code here
 			//
@@ -36,48 +34,24 @@ namespace CommAudio {
 		/// </summary>
 		~MyForm()
 		{
-			WSACleanup();
 			if (components)
 			{
 				delete components;
 			}
 		}
-
 	private: World* world;
 
-	private: System::Windows::Forms::Button^  play_button;
-	protected:
-
-	private: System::Windows::Forms::Button^  rew_button;
-	private: System::Windows::Forms::Button^  pause_button;
-	private: System::Windows::Forms::Button^  stop_button;
-	private: System::Windows::Forms::Button^  fwd_button;
-	protected:
-
-
-
-
+	private: System::Windows::Forms::Button^  main_client_button;
+	private: System::Windows::Forms::Button^  main_server_button;
 	private: System::Windows::Forms::MenuStrip^  menuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^  fileToolStripMenuItem;
-
-	private: System::Windows::Forms::ToolStripMenuItem^  playToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  playToolStripMenuItem1;
-	private: System::Windows::Forms::ToolStripMenuItem^  optionToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  soundToolStripMenuItem;
-	private: System::Windows::Forms::GroupBox^  groupBox1;
-	private: System::Windows::Forms::ListBox^  songlist;
-	private: System::Windows::Forms::ProgressBar^  progressBar1;
-	private: System::Windows::Forms::Button^  shuffle_button;
-	private: System::Windows::Forms::Button^  connect_button;
-	private: System::Windows::Forms::Label^  label1;
-	private: System::Windows::Forms::Label^  label2;
-	private: System::Windows::Forms::TextBox^  textbox_ip;
-	private: System::Windows::Forms::TextBox^  textbox_portnumber;
-
 	private: System::Windows::Forms::ToolStripMenuItem^  exitToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  connectToolStripMenuItem1;
+	private: System::Windows::Forms::ToolStripMenuItem^  modeToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  clientToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  serverToolStripMenuItem;
+	protected:
+
+	protected:
 
 	private:
 		/// <summary>
@@ -92,265 +66,93 @@ namespace CommAudio {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->play_button = (gcnew System::Windows::Forms::Button());
-			this->rew_button = (gcnew System::Windows::Forms::Button());
-			this->pause_button = (gcnew System::Windows::Forms::Button());
-			this->stop_button = (gcnew System::Windows::Forms::Button());
-			this->fwd_button = (gcnew System::Windows::Forms::Button());
+			this->main_client_button = (gcnew System::Windows::Forms::Button());
+			this->main_server_button = (gcnew System::Windows::Forms::Button());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->connectToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->modeToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->clientToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->serverToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->playToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->playToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->optionToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->soundToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
-			this->songlist = (gcnew System::Windows::Forms::ListBox());
-			this->progressBar1 = (gcnew System::Windows::Forms::ProgressBar());
-			this->shuffle_button = (gcnew System::Windows::Forms::Button());
-			this->connect_button = (gcnew System::Windows::Forms::Button());
-			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->textbox_ip = (gcnew System::Windows::Forms::TextBox());
-			this->textbox_portnumber = (gcnew System::Windows::Forms::TextBox());
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
-			// play_button
+			// main_client_button
 			// 
-			this->play_button->Location = System::Drawing::Point(76, 195);
-			this->play_button->Margin = System::Windows::Forms::Padding(2);
-			this->play_button->Name = L"play_button";
-			this->play_button->Size = System::Drawing::Size(56, 19);
-			this->play_button->TabIndex = 1;
-			this->play_button->Text = L"play";
-			this->play_button->UseVisualStyleBackColor = true;
+			this->main_client_button->Location = System::Drawing::Point(98, 70);
+			this->main_client_button->Name = L"main_client_button";
+			this->main_client_button->Size = System::Drawing::Size(75, 23);
+			this->main_client_button->TabIndex = 0;
+			this->main_client_button->Text = L"Client";
+			this->main_client_button->UseVisualStyleBackColor = true;
+			this->main_client_button->Click += gcnew System::EventHandler(this, &MyForm::main_client_button_Click);
 			// 
-			// rew_button
+			// main_server_button
 			// 
-			this->rew_button->Location = System::Drawing::Point(16, 195);
-			this->rew_button->Margin = System::Windows::Forms::Padding(2);
-			this->rew_button->Name = L"rew_button";
-			this->rew_button->Size = System::Drawing::Size(56, 19);
-			this->rew_button->TabIndex = 2;
-			this->rew_button->Text = L"rew";
-			this->rew_button->UseVisualStyleBackColor = true;
-			// 
-			// pause_button
-			// 
-			this->pause_button->Location = System::Drawing::Point(137, 195);
-			this->pause_button->Margin = System::Windows::Forms::Padding(2);
-			this->pause_button->Name = L"pause_button";
-			this->pause_button->Size = System::Drawing::Size(56, 19);
-			this->pause_button->TabIndex = 3;
-			this->pause_button->Text = L"pause";
-			this->pause_button->UseVisualStyleBackColor = true;
-			// 
-			// stop_button
-			// 
-			this->stop_button->Location = System::Drawing::Point(198, 195);
-			this->stop_button->Margin = System::Windows::Forms::Padding(2);
-			this->stop_button->Name = L"stop_button";
-			this->stop_button->Size = System::Drawing::Size(56, 19);
-			this->stop_button->TabIndex = 4;
-			this->stop_button->Text = L"stop";
-			this->stop_button->UseVisualStyleBackColor = true;
-			// 
-			// fwd_button
-			// 
-			this->fwd_button->Location = System::Drawing::Point(259, 195);
-			this->fwd_button->Margin = System::Windows::Forms::Padding(2);
-			this->fwd_button->Name = L"fwd_button";
-			this->fwd_button->Size = System::Drawing::Size(56, 19);
-			this->fwd_button->TabIndex = 5;
-			this->fwd_button->Text = L"fwd";
-			this->fwd_button->UseVisualStyleBackColor = true;
+			this->main_server_button->Location = System::Drawing::Point(98, 131);
+			this->main_server_button->Name = L"main_server_button";
+			this->main_server_button->Size = System::Drawing::Size(75, 23);
+			this->main_server_button->TabIndex = 1;
+			this->main_server_button->Text = L"Server";
+			this->main_server_button->UseVisualStyleBackColor = true;
+			this->main_server_button->Click += gcnew System::EventHandler(this, &MyForm::main_server_button_Click);
 			// 
 			// menuStrip1
 			// 
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->fileToolStripMenuItem, 
-				this->playToolStripMenuItem, this->optionToolStripMenuItem});
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				this->fileToolStripMenuItem,
+					this->modeToolStripMenuItem
+			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Padding = System::Windows::Forms::Padding(4, 2, 0, 2);
-			this->menuStrip1->Size = System::Drawing::Size(391, 24);
-			this->menuStrip1->TabIndex = 6;
+			this->menuStrip1->Size = System::Drawing::Size(282, 28);
+			this->menuStrip1->TabIndex = 2;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
 			// fileToolStripMenuItem
 			// 
-			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->connectToolStripMenuItem1, 
-				this->exitToolStripMenuItem});
+			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->exitToolStripMenuItem });
 			this->fileToolStripMenuItem->Name = L"fileToolStripMenuItem";
-			this->fileToolStripMenuItem->Size = System::Drawing::Size(37, 20);
+			this->fileToolStripMenuItem->Size = System::Drawing::Size(44, 24);
 			this->fileToolStripMenuItem->Text = L"File";
 			// 
-			// connectToolStripMenuItem1
+			// modeToolStripMenuItem
 			// 
-			this->connectToolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->clientToolStripMenuItem, 
-				this->serverToolStripMenuItem});
-			this->connectToolStripMenuItem1->Name = L"connectToolStripMenuItem1";
-			this->connectToolStripMenuItem1->Size = System::Drawing::Size(152, 22);
-			this->connectToolStripMenuItem1->Text = L"Start";
+			this->modeToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				this->clientToolStripMenuItem,
+					this->serverToolStripMenuItem
+			});
+			this->modeToolStripMenuItem->Name = L"modeToolStripMenuItem";
+			this->modeToolStripMenuItem->Size = System::Drawing::Size(60, 24);
+			this->modeToolStripMenuItem->Text = L"Mode";
 			// 
 			// clientToolStripMenuItem
 			// 
 			this->clientToolStripMenuItem->Name = L"clientToolStripMenuItem";
-			this->clientToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->clientToolStripMenuItem->Size = System::Drawing::Size(175, 24);
 			this->clientToolStripMenuItem->Text = L"Client";
-			this->clientToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::connect_button_Click);
 			// 
 			// serverToolStripMenuItem
 			// 
 			this->serverToolStripMenuItem->Name = L"serverToolStripMenuItem";
-			this->serverToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->serverToolStripMenuItem->Size = System::Drawing::Size(175, 24);
 			this->serverToolStripMenuItem->Text = L"Server";
-			this->serverToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::serverToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(175, 24);
 			this->exitToolStripMenuItem->Text = L"Exit";
-			// 
-			// playToolStripMenuItem
-			// 
-			this->playToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->playToolStripMenuItem1});
-			this->playToolStripMenuItem->Name = L"playToolStripMenuItem";
-			this->playToolStripMenuItem->Size = System::Drawing::Size(41, 20);
-			this->playToolStripMenuItem->Text = L"Play";
-			// 
-			// playToolStripMenuItem1
-			// 
-			this->playToolStripMenuItem1->Name = L"playToolStripMenuItem1";
-			this->playToolStripMenuItem1->Size = System::Drawing::Size(96, 22);
-			this->playToolStripMenuItem1->Text = L"Play";
-			// 
-			// optionToolStripMenuItem
-			// 
-			this->optionToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->soundToolStripMenuItem});
-			this->optionToolStripMenuItem->Name = L"optionToolStripMenuItem";
-			this->optionToolStripMenuItem->Size = System::Drawing::Size(56, 20);
-			this->optionToolStripMenuItem->Text = L"Option";
-			// 
-			// soundToolStripMenuItem
-			// 
-			this->soundToolStripMenuItem->Name = L"soundToolStripMenuItem";
-			this->soundToolStripMenuItem->Size = System::Drawing::Size(108, 22);
-			this->soundToolStripMenuItem->Text = L"Sound";
-			// 
-			// groupBox1
-			// 
-			this->groupBox1->Location = System::Drawing::Point(16, 86);
-			this->groupBox1->Margin = System::Windows::Forms::Padding(2);
-			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Padding = System::Windows::Forms::Padding(2);
-			this->groupBox1->Size = System::Drawing::Size(299, 75);
-			this->groupBox1->TabIndex = 7;
-			this->groupBox1->TabStop = false;
-			this->groupBox1->Text = L"Status";
-			// 
-			// songlist
-			// 
-			this->songlist->FormattingEnabled = true;
-			this->songlist->Location = System::Drawing::Point(16, 225);
-			this->songlist->Margin = System::Windows::Forms::Padding(2);
-			this->songlist->Name = L"songlist";
-			this->songlist->Size = System::Drawing::Size(361, 147);
-			this->songlist->TabIndex = 8;
-			// 
-			// progressBar1
-			// 
-			this->progressBar1->Location = System::Drawing::Point(16, 169);
-			this->progressBar1->Margin = System::Windows::Forms::Padding(2);
-			this->progressBar1->Name = L"progressBar1";
-			this->progressBar1->Size = System::Drawing::Size(299, 19);
-			this->progressBar1->TabIndex = 9;
-			// 
-			// shuffle_button
-			// 
-			this->shuffle_button->Location = System::Drawing::Point(320, 114);
-			this->shuffle_button->Margin = System::Windows::Forms::Padding(2);
-			this->shuffle_button->Name = L"shuffle_button";
-			this->shuffle_button->Size = System::Drawing::Size(56, 19);
-			this->shuffle_button->TabIndex = 10;
-			this->shuffle_button->Text = L"shuffle";
-			this->shuffle_button->UseVisualStyleBackColor = true;
-			// 
-			// connect_button
-			// 
-			this->connect_button->Location = System::Drawing::Point(198, 57);
-			this->connect_button->Margin = System::Windows::Forms::Padding(2);
-			this->connect_button->Name = L"connect_button";
-			this->connect_button->Size = System::Drawing::Size(56, 19);
-			this->connect_button->TabIndex = 0;
-			this->connect_button->Text = L"connect";
-			this->connect_button->UseVisualStyleBackColor = true;
-			this->connect_button->Click += gcnew System::EventHandler(this, &MyForm::connect_button_Click);
-			// 
-			// label1
-			// 
-			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(16, 31);
-			this->label1->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(58, 13);
-			this->label1->TabIndex = 11;
-			this->label1->Text = L"IP Address";
-			// 
-			// label2
-			// 
-			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(16, 57);
-			this->label2->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
-			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(64, 13);
-			this->label2->TabIndex = 12;
-			this->label2->Text = L"Port number";
-			// 
-			// textbox_ip
-			// 
-			this->textbox_ip->Location = System::Drawing::Point(85, 31);
-			this->textbox_ip->Margin = System::Windows::Forms::Padding(2);
-			this->textbox_ip->Name = L"textbox_ip";
-			this->textbox_ip->Size = System::Drawing::Size(170, 20);
-			this->textbox_ip->TabIndex = 13;
-			this->textbox_ip->Text = L"127.0.0.1";
-			// 
-			// textbox_portnumber
-			// 
-			this->textbox_portnumber->Location = System::Drawing::Point(85, 56);
-			this->textbox_portnumber->Margin = System::Windows::Forms::Padding(2);
-			this->textbox_portnumber->Name = L"textbox_portnumber";
-			this->textbox_portnumber->Size = System::Drawing::Size(76, 20);
-			this->textbox_portnumber->TabIndex = 14;
-			this->textbox_portnumber->Text = L"5150";
 			// 
 			// MyForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(391, 380);
-			this->Controls->Add(this->textbox_portnumber);
-			this->Controls->Add(this->textbox_ip);
-			this->Controls->Add(this->label2);
-			this->Controls->Add(this->label1);
-			this->Controls->Add(this->connect_button);
-			this->Controls->Add(this->shuffle_button);
-			this->Controls->Add(this->progressBar1);
-			this->Controls->Add(this->songlist);
-			this->Controls->Add(this->groupBox1);
-			this->Controls->Add(this->fwd_button);
-			this->Controls->Add(this->stop_button);
-			this->Controls->Add(this->pause_button);
-			this->Controls->Add(this->rew_button);
-			this->Controls->Add(this->play_button);
+			this->ClientSize = System::Drawing::Size(282, 253);
+			this->Controls->Add(this->main_server_button);
+			this->Controls->Add(this->main_client_button);
 			this->Controls->Add(this->menuStrip1);
 			this->MainMenuStrip = this->menuStrip1;
-			this->Margin = System::Windows::Forms::Padding(2);
 			this->Name = L"MyForm";
 			this->Text = L"Comm Audio";
 			this->menuStrip1->ResumeLayout(false);
@@ -360,82 +162,20 @@ namespace CommAudio {
 
 		}
 #pragma endregion
+	private: System::Void main_client_button_Click(System::Object^  sender, System::EventArgs^  e) {
+				 ClientGUI ^ clientForm = gcnew ClientGUI();
 
-		//TCP
-			// new thread:
-			// ~struct: sendSockParams > socket, stats, buff
+				 world = (World*)calloc(1, sizeof(World));
+				 
+				 world->clientOrServer = CLIENT;
+				 this->Hide();
+				 clientForm->Show();
+	}
+	private: System::Void main_server_button_Click(System::Object^  sender, System::EventArgs^  e) {
+				 world = (World*)calloc(1, sizeof(World));
 
-		//TCP
-			// new thread:
-			// ~struct: recvSockParams > socket, stats, buff
-			// setRecvSockParams ( recvSockParams )
-			// createAndBindSock ( recvSockPrams -> socket )	
-			// listenForConnections ( (new) recvSockParams -> socket )
-			// if established -> new thread:
-				// tcpWithClient <> doTcpWithClientWork
-				// end
-			// back to listenForConnections
-
-		// UDP
-			// new thread
-			// ~struct: recvSockParams > socket, stats, buff
-			// setSendSockParams ( sendSockParams )
-			// createAndBindSock ( sendSockPrams -> socket )
-			// udpMulticast <> doUdpMulticastWork
-			// close
-
-private: System::Void initWSA() {
-			 
-			WORD wVersionRequested;
-			WSADATA WSAData;
-
-			wVersionRequested = MAKEWORD(2, 2);
-
-			if (WSAStartup(wVersionRequested, &WSAData) != 0) {
-				MessageBox::Show("WSAStartup failed with error (" + WSAGetLastError() + ")", "Error");
-				WSACleanup();
-				exit(1);
-			}
-
-		}
-
-private: System::Void connect_button_Click(System::Object^  sender, System::EventArgs^  e) {
-			 char* textbox_ip_string;
-			 char* textbox_portnumber_string;
-			 INT textbox_portnumber_int;
-		   	 DWORD connectThreadId;
-				
-			 world = (World*)calloc(1, sizeof(World));
-
-			 world->clientOrServer = CLIENT;
-			 world->sockTcp.protocol = SOCK_STREAM;
-
-			 textbox_ip_string = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_ip->Text);
-			 textbox_portnumber_string = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_portnumber->Text);
-			 textbox_portnumber_int = atoi(textbox_portnumber_string);
-
-			 strcpy(world->sockTcp.ip, textbox_ip_string);
-			 world->sockTcp.portNumber = textbox_portnumber_int;
-
-			 if(initWorld(world)) {
-				 CreateThread(0, 0, retrieveSessionFromServer, (LPVOID)world, 0, &connectThreadId);
-			 }
-}
-
-private: System::Void serverToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 DWORD waitThreadId;
-			 DWORD multicastThreadId;
-
-			 world = (World*)calloc(1, sizeof(World));
-
-			 world->clientOrServer		 = SERVER;
-			 world->sockTcp.protocol   = SOCK_STREAM;
-			 world->sockTcp.portNumber = DEFAULT_SERVERPORT;
-
-			 if(initWorld(world)) {
-				 CreateThread(0, 0, waitForConnections, (LPVOID)world, 0, &waitThreadId);
-				 CreateThread(0, 0, sendMulticast, (LPVOID)world, 0, &multicastThreadId);
-			 }
-}
-};
+				 world->clientOrServer = SERVER;
+				 this->Hide();
+	}
+	};
 }
