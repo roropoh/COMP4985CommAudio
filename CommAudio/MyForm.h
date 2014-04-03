@@ -125,7 +125,7 @@ namespace CommAudio {
 			this->play_button->Margin = System::Windows::Forms::Padding(2);
 			this->play_button->Name = L"play_button";
 			this->play_button->Size = System::Drawing::Size(56, 19);
-			this->play_button->TabIndex = 0;
+			this->play_button->TabIndex = 1;
 			this->play_button->Text = L"play";
 			this->play_button->UseVisualStyleBackColor = true;
 			// 
@@ -135,7 +135,7 @@ namespace CommAudio {
 			this->rew_button->Margin = System::Windows::Forms::Padding(2);
 			this->rew_button->Name = L"rew_button";
 			this->rew_button->Size = System::Drawing::Size(56, 19);
-			this->rew_button->TabIndex = 1;
+			this->rew_button->TabIndex = 2;
 			this->rew_button->Text = L"rew";
 			this->rew_button->UseVisualStyleBackColor = true;
 			// 
@@ -145,7 +145,7 @@ namespace CommAudio {
 			this->pause_button->Margin = System::Windows::Forms::Padding(2);
 			this->pause_button->Name = L"pause_button";
 			this->pause_button->Size = System::Drawing::Size(56, 19);
-			this->pause_button->TabIndex = 2;
+			this->pause_button->TabIndex = 3;
 			this->pause_button->Text = L"pause";
 			this->pause_button->UseVisualStyleBackColor = true;
 			// 
@@ -155,7 +155,7 @@ namespace CommAudio {
 			this->stop_button->Margin = System::Windows::Forms::Padding(2);
 			this->stop_button->Name = L"stop_button";
 			this->stop_button->Size = System::Drawing::Size(56, 19);
-			this->stop_button->TabIndex = 3;
+			this->stop_button->TabIndex = 4;
 			this->stop_button->Text = L"stop";
 			this->stop_button->UseVisualStyleBackColor = true;
 			// 
@@ -165,7 +165,7 @@ namespace CommAudio {
 			this->fwd_button->Margin = System::Windows::Forms::Padding(2);
 			this->fwd_button->Name = L"fwd_button";
 			this->fwd_button->Size = System::Drawing::Size(56, 19);
-			this->fwd_button->TabIndex = 4;
+			this->fwd_button->TabIndex = 5;
 			this->fwd_button->Text = L"fwd";
 			this->fwd_button->UseVisualStyleBackColor = true;
 			// 
@@ -177,7 +177,7 @@ namespace CommAudio {
 			this->menuStrip1->Name = L"menuStrip1";
 			this->menuStrip1->Padding = System::Windows::Forms::Padding(4, 2, 0, 2);
 			this->menuStrip1->Size = System::Drawing::Size(391, 24);
-			this->menuStrip1->TabIndex = 5;
+			this->menuStrip1->TabIndex = 6;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
 			// fileToolStripMenuItem
@@ -249,7 +249,7 @@ namespace CommAudio {
 			this->groupBox1->Name = L"groupBox1";
 			this->groupBox1->Padding = System::Windows::Forms::Padding(2);
 			this->groupBox1->Size = System::Drawing::Size(299, 75);
-			this->groupBox1->TabIndex = 6;
+			this->groupBox1->TabIndex = 7;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Status";
 			// 
@@ -260,7 +260,7 @@ namespace CommAudio {
 			this->songlist->Margin = System::Windows::Forms::Padding(2);
 			this->songlist->Name = L"songlist";
 			this->songlist->Size = System::Drawing::Size(361, 147);
-			this->songlist->TabIndex = 7;
+			this->songlist->TabIndex = 8;
 			// 
 			// progressBar1
 			// 
@@ -268,7 +268,7 @@ namespace CommAudio {
 			this->progressBar1->Margin = System::Windows::Forms::Padding(2);
 			this->progressBar1->Name = L"progressBar1";
 			this->progressBar1->Size = System::Drawing::Size(299, 19);
-			this->progressBar1->TabIndex = 8;
+			this->progressBar1->TabIndex = 9;
 			// 
 			// shuffle_button
 			// 
@@ -276,7 +276,7 @@ namespace CommAudio {
 			this->shuffle_button->Margin = System::Windows::Forms::Padding(2);
 			this->shuffle_button->Name = L"shuffle_button";
 			this->shuffle_button->Size = System::Drawing::Size(56, 19);
-			this->shuffle_button->TabIndex = 9;
+			this->shuffle_button->TabIndex = 10;
 			this->shuffle_button->Text = L"shuffle";
 			this->shuffle_button->UseVisualStyleBackColor = true;
 			// 
@@ -286,7 +286,7 @@ namespace CommAudio {
 			this->connect_button->Margin = System::Windows::Forms::Padding(2);
 			this->connect_button->Name = L"connect_button";
 			this->connect_button->Size = System::Drawing::Size(56, 19);
-			this->connect_button->TabIndex = 10;
+			this->connect_button->TabIndex = 0;
 			this->connect_button->Text = L"connect";
 			this->connect_button->UseVisualStyleBackColor = true;
 			this->connect_button->Click += gcnew System::EventHandler(this, &MyForm::connect_button_Click);
@@ -318,6 +318,7 @@ namespace CommAudio {
 			this->textbox_ip->Name = L"textbox_ip";
 			this->textbox_ip->Size = System::Drawing::Size(170, 20);
 			this->textbox_ip->TabIndex = 13;
+			this->textbox_ip->Text = L"127.0.0.1";
 			// 
 			// textbox_portnumber
 			// 
@@ -326,6 +327,7 @@ namespace CommAudio {
 			this->textbox_portnumber->Name = L"textbox_portnumber";
 			this->textbox_portnumber->Size = System::Drawing::Size(76, 20);
 			this->textbox_portnumber->TabIndex = 14;
+			this->textbox_portnumber->Text = L"5150";
 			// 
 			// MyForm
 			// 
@@ -398,35 +400,42 @@ private: System::Void initWSA() {
 		}
 
 private: System::Void connect_button_Click(System::Object^  sender, System::EventArgs^  e) {
-
-				DWORD connectThreadId;
+			 char* textbox_ip_string;
+			 char* textbox_portnumber_string;
+			 INT textbox_portnumber_int;
+		   	 DWORD connectThreadId;
 				
-				world = (World*)calloc(1, sizeof(World));
+			 world = (World*)calloc(1, sizeof(World));
 
-				world->clientOrServer		 = CLIENT;
-				world->sockTcp.protocol   = SOCK_STREAM;
-				world->sockTcp.portNumber = DEFAULT_SERVERPORT;
-				strcpy(world->sockTcp.ip, "192.168.1.72");
+			 world->clientOrServer = CLIENT;
+			 world->sockTcp.protocol = SOCK_STREAM;
 
-				if(initWorld(world)) {
-					CreateThread(0, 0, retrieveSessionFromServer, (LPVOID)world, 0, &connectThreadId);
-				}
-		 }
+			 textbox_ip_string = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_ip->Text);
+			 textbox_portnumber_string = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_portnumber->Text);
+			 textbox_portnumber_int = atoi(textbox_portnumber_string);
+
+			 strcpy(world->sockTcp.ip, textbox_ip_string);
+			 world->sockTcp.portNumber = textbox_portnumber_int;
+
+			 if(initWorld(world)) {
+				 CreateThread(0, 0, retrieveSessionFromServer, (LPVOID)world, 0, &connectThreadId);
+			 }
+}
 
 private: System::Void serverToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-				DWORD waitThreadId;
-				DWORD multicastThreadId;
+			 DWORD waitThreadId;
+			 DWORD multicastThreadId;
 
-				world = (World*)calloc(1, sizeof(World));
+			 world = (World*)calloc(1, sizeof(World));
 
-				world->clientOrServer		 = SERVER;
-				world->sockTcp.protocol   = SOCK_STREAM;
-				world->sockTcp.portNumber = DEFAULT_SERVERPORT;
+			 world->clientOrServer		 = SERVER;
+			 world->sockTcp.protocol   = SOCK_STREAM;
+			 world->sockTcp.portNumber = DEFAULT_SERVERPORT;
 
-				if(initWorld(world)) {
-					CreateThread(0, 0, waitForConnections, (LPVOID)world, 0, &waitThreadId);
-					CreateThread(0, 0, sendMulticast, (LPVOID)world, 0, &multicastThreadId);
-				}
-			}
+			 if(initWorld(world)) {
+				 CreateThread(0, 0, waitForConnections, (LPVOID)world, 0, &waitThreadId);
+				 CreateThread(0, 0, sendMulticast, (LPVOID)world, 0, &multicastThreadId);
+			 }
+}
 };
 }
