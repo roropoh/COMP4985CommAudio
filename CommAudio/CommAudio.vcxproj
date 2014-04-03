@@ -78,6 +78,7 @@
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="MyForm.cpp" />
+    <ClCompile Include="ServerGUI.cpp" />
     <ClCompile Include="ServerMulticast.cpp" />
     <ClCompile Include="Components.cpp" />
     <ClCompile Include="ServerTcp.cpp" />
@@ -93,6 +94,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ServerGUI.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="SmallStructs.h" />
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +105,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServerGUI.resx">
+      <DependentUpon>ServerGUI.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 #include "Master.h"
 #include "ClientGUI.h"
+#include "ServerGUI.h"
 
 using namespace std;
 
@@ -172,10 +173,13 @@ namespace CommAudio {
 				 clientForm->Show();
 	}
 	private: System::Void main_server_button_Click(System::Object^  sender, System::EventArgs^  e) {
+				 ServerGUI ^ serverForm = gcnew ServerGUI();
+
 				 world = (World*)calloc(1, sizeof(World));
 
 				 world->clientOrServer = SERVER;
 				 this->Hide();
+				 serverForm->Show();
 	}
 	};
 }
