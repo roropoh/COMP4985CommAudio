@@ -233,6 +233,8 @@ namespace CommAudio {
 
 				 world->clientOrServer = SERVER;
 				 world->sockSessn.portNumber = DEFAULT_SERVERPORT;
+				 
+				 strcpy_s(world->sockMulti.ip, "235.255.24.55"); 
 
 				 if (initWorld(world)) {
 					 CreateThread(0, 0, waitForConnections, (LPVOID)world, 0, &waitThreadId);

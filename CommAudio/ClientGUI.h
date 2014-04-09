@@ -374,21 +374,24 @@ namespace CommAudio {
 			// close
 
 private: System::Void connect_button_Click(System::Object^  sender, System::EventArgs^  e) {
-			 char* textbox_ip_string;
-			 char* textbox_portnumber_string;
-			 INT textbox_portnumber_int;
-		   	 DWORD connectThreadId;
-				
+			 
+			 PCHAR textbox_ip_string;
+			 PCHAR textbox_portnumber_string;
+			 INT   textbox_portnumber_int;
+
+		   DWORD connectThreadId;
+
+			 textbox_ip_string					= (PCHAR)(PVOID)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_ip->Text);
+			 textbox_portnumber_string	= (PCHAR)(PVOID)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_portnumber->Text);
+			 textbox_portnumber_int			= atoi(textbox_portnumber_string);
+	
+
 			 world = (World*)calloc(1, sizeof(World));
 
-			 world->clientOrServer = CLIENT;
+			 strcpy_s(world->sockSessn.ip, textbox_ip_string);
 
-			 textbox_ip_string = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_ip->Text);
-			 textbox_portnumber_string = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_portnumber->Text);
-			 textbox_portnumber_int = atoi(textbox_portnumber_string);
-
-			 strcpy(world->sockSessn.ip, textbox_ip_string);
 			 world->sockSessn.portNumber = textbox_portnumber_int;
+			 world->clientOrServer       = CLIENT;
 
 			 if(initWorld(world)) {
 				 CreateThread(0, 0, retrieveSessionFromServer, (LPVOID)world, 0, &connectThreadId);

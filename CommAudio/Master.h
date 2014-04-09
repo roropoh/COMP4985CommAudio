@@ -14,8 +14,10 @@ INT createSendSocket(SocketsComponent* sockSessn);
 INT initWorld(World* world);
 
 // Multicast.cpp
-DWORD WINAPI sendMulticast(LPVOID pVoid);
+DWORD WINAPI recvMulticast(LPVOID pVoid); // client
+DWORD WINAPI sendMulticast(LPVOID pVoid); // server
 INT createServerBoundMulticastSocket(MulticastComponent* sockMulti);
+
 
 // ServerSession.cpp
 DWORD WINAPI waitForConnections(LPVOID pVoid);

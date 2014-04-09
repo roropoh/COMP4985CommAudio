@@ -20,5 +20,4 @@ typedef struct {
 	SOCKADDR_IN* dstAddr;
 	INT				   dstAddrLen;
 } MulticastSocketInformation;
-
 #endif

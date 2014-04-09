@@ -1,6 +1,6 @@
 #include "Master.h"
 
-
+void CALLBACK doRecvMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVERLAPPED overlapped, DWORD inFlags);
 VOID CALLBACK doSendMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVERLAPPED overlapped, DWORD inFlags);
 DWORD WINAPI sendSessionToClient(LPVOID pVoid);
 
@@ -77,6 +77,61 @@ void CALLBACK doSendMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 
 
 
+DWORD WINAPI recvMulticast(LPVOID pVoid) {
+
+	MulticastSocketInformation *msi = (MulticastSocketInformation *)pVoid;
+
+	DWORD recvBytes = 0;
+	DWORD flags		  = 0;
+
+	while( TRUE )
+	{
+		if(WSARecvFrom(msi->workSock, msi->dataBuf, 1, &recvBytes, &flags, (SOCKADDR*)msi->dstAddr, &msi->dstAddrLen, msi->overlapped, doRecvMulticastWork) == SOCKET_ERROR)
+		{
+			if(GetLastError() != WSA_IO_PENDING)
+			{
+				//closeRecvEverything(&sinf, "Socket error");
+				return FALSE;
+			}
+		}
+
+		if( waitForWSAEventToComplete(msi->wsaEvent) == FALSE ) return FALSE;
+	}
+	return 0;
+}
+
+
+
+VOID CALLBACK doRecvMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVERLAPPED overlapped, DWORD inFlags)
+{
+	MulticastSocketInformation *msi = (MulticastSocketInformation *)overlapped;
+
+	DWORD bytesWrittenToFile = 0;
+	DWORD recvBytes = 0;
+	DWORD flags		= 0;
+
+
+	if( error != 0 || bytesTransferred == 0 )
+	{
+
+		//closeRecvEverything(sinf, 0);
+		return;
+	}
+
+
+	if(WSARecvFrom(msi->workSock, msi->dataBuf, 1, &recvBytes, &flags, (SOCKADDR*)msi->dstAddr, &msi->dstAddrLen, msi->overlapped, doRecvMulticastWork) == SOCKET_ERROR)
+	{
+		if(GetLastError() != WSA_IO_PENDING)
+		{
+			//closeRecvEverything(sinf, "Socket error");
+			return;
+		}
+	}
+
+	return;
+}
+
+
 
 
 
@@ -88,8 +143,8 @@ INT createServerBoundMulticastSocket(MulticastComponent* mSock)
 
 
 	SOCKADDR_IN *plclAddr = &(mSock->lclAddr); // SOCKADDR_IN
-	SOCKADDR_IN *pdstAddr  = &(mSock->dstAddr); // SOCKADDR_IN
-	IP_MREQ			*pipMreq  = &(mSock->ipMreq); // IP_MREQ
+	SOCKADDR_IN *pdstAddr = &(mSock->dstAddr); // SOCKADDR_IN
+	IP_MREQ			*pipMreq  = &(mSock->ipMreq);  // IP_MREQ
 
 	memset((PCHAR)plclAddr, 0, sizeof(SOCKADDR_IN));
 	memset((PCHAR)pipMreq , 0, sizeof(IP_MREQ));
@@ -105,7 +160,7 @@ INT createServerBoundMulticastSocket(MulticastComponent* mSock)
 	plclAddr -> sin_port				 = 0;
 
 	pdstAddr -> sin_family				= AF_INET;
-  pdstAddr -> sin_addr.s_addr	= inet_addr(mSock->ip);
+  pdstAddr -> sin_addr.s_addr		= inet_addr(mSock->ip);
   pdstAddr -> sin_port					= htons(mSock->portNumber);
 
 	pipMreq->imr_multiaddr.s_addr = inet_addr(mSock->ip);
@@ -121,18 +176,18 @@ INT createServerBoundMulticastSocket(MulticastComponent* mSock)
 	}
 
 
-	if(setsockopt(mSock->workSock, IPPROTO_IP, IP_ADD_MEMBERSHIP, (CHAR*)pipMreq, sizeof(*pipMreq))) {
+	if(setsockopt(mSock->workSock, IPPROTO_IP, IP_ADD_MEMBERSHIP, (PCHAR)pipMreq, sizeof(*pipMreq))) {
 		int err = GetLastError();
 		return FALSE;
 	}
 
-	if(setsockopt(mSock->workSock, IPPROTO_IP, IP_MULTICAST_TTL , (CHAR*)&TTL , sizeof(TTL))) {
+	if(setsockopt(mSock->workSock, IPPROTO_IP, IP_MULTICAST_TTL , (PCHAR)&TTL , sizeof(TTL))) {
 		// handle error
 		return FALSE;
 	}
 
 
-	if(setsockopt(mSock->workSock, IPPROTO_IP, IP_MULTICAST_LOOP, (char *)&optval, sizeof(optval))) {
+	if(setsockopt(mSock->workSock, IPPROTO_IP, IP_MULTICAST_LOOP, (PCHAR)&optval, sizeof(optval))) {
 		// handle error
 		return FALSE;
 	}

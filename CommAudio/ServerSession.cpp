@@ -27,6 +27,8 @@ INT initServer(SocketsComponent* sockSessn, MulticastComponent* sockMulti)
 	return 1;
 }
 
+
+
 DWORD WINAPI waitForConnections(LPVOID pVoid)
 {
 	World* world = (World*)pVoid;
@@ -98,7 +100,8 @@ DWORD WINAPI sendSessionToClient(LPVOID pVoid)
 	DWORD sentBytes	= 0;
 	DWORD flags			= 0;
 
-	strcpy(si.buffer, "HOHO This is a packet 1024 bits long.");
+	strcpy(si.buffer, world->sockMulti.ip);
+
 	
 	while(TRUE) {
 		if(WSASend(si.workSock, (LPWSABUF)si.dataBuf, 1, &sentBytes, flags, si.overlapped, doSendSessionWork) == SOCKET_ERROR) {

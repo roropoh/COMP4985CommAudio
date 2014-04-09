@@ -20,7 +20,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -79,13 +79,13 @@
     <ResourceCompile Include="CommAudio.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ClientGUI.h" />
+    <ClInclude Include="ClientGui.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="GlobalShared.h" />
     <ClInclude Include="Master.h" />
     <ClInclude Include="MyForm.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="ServerGUI.h" />
+    <ClInclude Include="ServerGui.h" />
     <ClInclude Include="SmallStructs.h" />
   </ItemGroup>
   <ItemGroup>

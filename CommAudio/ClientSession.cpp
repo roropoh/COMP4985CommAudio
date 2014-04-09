@@ -2,6 +2,7 @@
 
 void CALLBACK doRetrieveSessionWork(DWORD error, DWORD bytesTransferred, LPWSAOVERLAPPED overlapped, DWORD inFlags);
 
+
 INT initClient(SocketsComponent* sockSessn, MulticastComponent* sockMulti)
 {
 	sockSessn->wsaEvent = WSACreateEvent();
@@ -16,23 +17,6 @@ INT initClient(SocketsComponent* sockSessn, MulticastComponent* sockMulti)
 		return 0;
 	}
 	return 1;
-}
-
-
-static BOOL waitForWSAEventToComplete(WSAEVENT* event)
-{
-	WSAEVENT eventsArray[1] = { *event };
-	DWORD index;
-
-	while( TRUE ) {
-		index = WSAWaitForMultipleEvents( 1, eventsArray, FALSE, WSA_INFINITE, TRUE);
-		switch(index) {
-			case WSA_WAIT_FAILED: return FALSE;
-			case WAIT_IO_COMPLETION: break;
-		}
-	}
-	WSAResetEvent(*event);
-	return TRUE;
 }
 
 
@@ -117,7 +101,7 @@ DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid)
 ----------------------------------------------------------------------------------------------------------------------*/
 void CALLBACK doRetrieveSessionWork(DWORD error, DWORD bytesTransferred, LPWSAOVERLAPPED overlapped, DWORD inFlags)
 {
-	SocketInformation * si = (SocketInformation *) overlapped;
+	MulticastSocketInformation *msi = (MulticastSocketInformation*) overlapped;
 
 	DWORD recvBytes = 0;
 	DWORD flags			= 0;
@@ -128,12 +112,14 @@ void CALLBACK doRetrieveSessionWork(DWORD error, DWORD bytesTransferred, LPWSAOV
 		return;
 	}
 
-	if(WSARecv(si->workSock, (LPWSABUF)si->dataBuf, 1, &recvBytes, &flags, si->overlapped, doRetrieveSessionWork) == SOCKET_ERROR) {
-		if(GetLastError() != WSA_IO_PENDING) {
-			int err = GetLastError();
+	//if(WSARecv(si->workSock, (LPWSABUF)si->dataBuf, 1, &recvBytes, &flags, si->overlapped, doRetrieveSessionWork) == SOCKET_ERROR) {
+	//	if(GetLastError() != WSA_IO_PENDING) {
+	//		int err = GetLastError();
 			//closeRecvEverything(&sinf, "Socket error");
-			return;
-		}
-	}
+	//		return;
+	//	}
+	//}
+
+	CreateThread(0, 0, recvMulticast, (LPVOID)msi, 0, 0);
 }
 
