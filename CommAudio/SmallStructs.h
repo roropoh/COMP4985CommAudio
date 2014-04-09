@@ -1,7 +1,7 @@
 #ifndef SMALLSTRUCTS_H
 #define SMALLSTRUCTS_H
 
-#include "GlobalShared.h"
+#include "Master.h"
 
 typedef struct {
 	OVERLAPPED   overlapped; // overlapped MUST be the first entry for the completion routine to work
@@ -18,6 +18,7 @@ typedef struct {
 	WSABUF		 * dataBuf;
 	WSAEVENT	 * wsaEvent;
 	SOCKADDR_IN* dstAddr;
-	INT				   dstAddrLen;
+	INT		     dstAddrLen;
+	MulticastComponent *sockMulti;
 } MulticastSocketInformation;
 #endif

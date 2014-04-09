@@ -13,6 +13,8 @@ BOOL waitForWSAEventToComplete(WSAEVENT* event);
 INT createBoundSocket(UnicastComponent* sockSessn);
 INT createSendSocket(UnicastComponent* sockSessn);
 INT initWorld(World* world);
+INT initMulticastComponent(MulticastComponent* sockMulti, INT createSocketType(MulticastComponent*));
+
 
 // Multicast.cpp
 DWORD WINAPI recvMulticast(LPVOID pVoid); // client

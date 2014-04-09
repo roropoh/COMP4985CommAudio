@@ -78,7 +78,7 @@ static INT initUnicastComponent(UnicastComponent* sockSessn, INT initHostType(Un
 	return initHostType(sockSessn);
 }
 
-static INT initMulticastComponent(MulticastComponent* sockMulti, INT createSocketType(MulticastComponent*))
+INT initMulticastComponent(MulticastComponent* sockMulti, INT createSocketType(MulticastComponent*))
 {
 	sockMulti->wsaEvent = WSACreateEvent();
 
@@ -142,9 +142,6 @@ INT initWorld(World* world)
 
 	else if(cos == CLIENT) {
 		if( ! initUnicastComponent(&world->sockSessn, initClient)) 
-			return FALSE;
-
-		if( ! initMulticastComponent(&world->sockMulti, createClientBoundMulticastSocket)) 
 			return FALSE;
 	}
 

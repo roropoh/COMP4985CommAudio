@@ -45,6 +45,7 @@ DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid)
 	msi.dstAddrLen = world->sockMulti.dstAddrLen;
 	msi.buffer		 = world->buffs.buffer;
 	msi.workSock	 = world->sockMulti.workSock;
+	msi.sockMulti = &world->sockMulti;
 
 	DWORD sentBytes	= 0;
 	DWORD flags			= 0;
@@ -110,6 +111,10 @@ void CALLBACK doRetrieveSessionWork(DWORD error, DWORD bytesTransferred, LPWSAOV
 		// close everything
 		return;
 	}
+
+
+	if (!initMulticastComponent(msi->sockMulti, createClientBoundMulticastSocket))
+		return;
 
 	CreateThread(0, 0, recvMulticast, (LPVOID)msi, 0, 0);
 }

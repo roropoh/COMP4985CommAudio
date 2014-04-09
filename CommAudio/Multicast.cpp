@@ -215,7 +215,7 @@ INT createClientBoundMulticastSocket(MulticastComponent* mSock)
   plclAddr->sin_addr.s_addr = htonl(INADDR_ANY);
   plclAddr->sin_port        = htons(mSock->portNumber);
   
-	if(bind(mSock->workSock, (SOCKADDR*) &plclAddr, sizeof(plclAddr))) {
+	if(bind(mSock->workSock, (SOCKADDR*) plclAddr, sizeof(*plclAddr))) {
 		// handle error
 		return FALSE;
 	}
@@ -226,6 +226,7 @@ INT createClientBoundMulticastSocket(MulticastComponent* mSock)
   
 	if(setsockopt(mSock->workSock, IPPROTO_IP, IP_ADD_MEMBERSHIP, (CHAR*)pipMreq, sizeof(*pipMreq))) {
 		// handle error
+		int err = GetLastError();
 		return FALSE;
 	}
 
