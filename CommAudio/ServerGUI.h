@@ -303,6 +303,9 @@ private: System::Void openfile_button_Click(System::Object^  sender, System::Eve
 
 			 if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK){
 				 file_name = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(openFileDialog1->FileName);
+				 
+				 //file_name_string = gcnew System::String(file_name);
+				 songlist->Items->Add(openFileDialog1->SafeFileName);
 			 }
 }
 private: System::Void ServerGUI_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
