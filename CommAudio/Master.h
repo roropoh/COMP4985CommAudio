@@ -4,21 +4,24 @@
 #include "Components.h"
 #include "SmallStructs.h"
 
+// Shared.cpp
+BOOL waitForWSAEventToComplete(WSAEVENT* event);
+
 // Components.cpp
-INT createBoundSocket(SocketsComponent* socks);
-INT createSendSocket(SocketsComponent* socks);
+INT createBoundSocket(SocketsComponent* sockSessn);
+INT createSendSocket(SocketsComponent* sockSessn);
 INT initWorld(World* world);
 
-// ServerMulticast.cpp
+// Multicast.cpp
 DWORD WINAPI sendMulticast(LPVOID pVoid);
-INT createMulticastSocket(MulticastComponent* socks);
+INT createServerBoundMulticastSocket(MulticastComponent* sockMulti);
 
-// ServerTcp.cpp
+// ServerSession.cpp
 DWORD WINAPI waitForConnections(LPVOID pVoid);
-INT initServer(SocketsComponent* sockTcp, MulticastComponent* sockUdp);
+INT initServer(SocketsComponent* sockSessn, MulticastComponent* sockMulti);
 
-// Client.cpp
+// ClientSession.cpp
 DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid);
-INT initClient(SocketsComponent* sockTcp, MulticastComponent* sockUdp);
+INT initClient(SocketsComponent* sockSessn, MulticastComponent* sockMulti);
 
 #endif

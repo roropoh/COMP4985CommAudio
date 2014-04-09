@@ -7,12 +7,12 @@ typedef struct {
 	OVERLAPPED	overlapped;
 	WSAEVENT		wsaEvent;
 	SOCKET			workSock;
-	SOCKADDR_IN	inAddr;
+	SOCKADDR_IN	lclAddr;
+	SOCKADDR_IN dstAddr;
 	IP_MREQ			ipMreq;
-	ULONG				TTL;
-	USHORT			Interval;
-	INT					inAddrLen;
-	INT					protocol;
+	//ULONG				TTL;
+	//USHORT			Interval;
+	INT					dstAddrLen;
 	INT					portNumber;
 	CHAR				ip[MAXBUFLEN];
 } MulticastComponent;
@@ -25,7 +25,6 @@ typedef struct {
 	SOCKET			workSock;
 	SOCKADDR_IN	inAddr;
 	INT					inAddrLen;
-	INT					protocol;
 	INT					portNumber;
 	CHAR				ip[MAXBUFLEN];
 } SocketsComponent;
@@ -54,12 +53,12 @@ typedef struct {
 
 
 typedef struct {
-	SocketsComponent sockTcp;
-	MulticastComponent sockUdp;
+	SocketsComponent sockSessn;
+	MulticastComponent sockMulti;
 	BuffersComponent buffs;
 	StatsComponent	 stats;
 	MediaComponent	 media;
-	int clientOrServer;
+	INT clientOrServer;
 } World;
 
 #endif

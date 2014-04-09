@@ -1,20 +1,19 @@
 #include "Master.h"
 
-INT createSendSocket(SocketsComponent* socks)
+INT createSendSocket(SocketsComponent* sockSessn)
 {
-	SOCKADDR_IN* pinAddr = &(socks->inAddr);
-	HOSTENT* hostent = gethostbyname(socks->ip);
+	SOCKADDR_IN* pinAddr = &(sockSessn->inAddr);
+	HOSTENT* hostent = gethostbyname(sockSessn->ip);
 
 	memset((PCHAR)pinAddr, 0, sizeof(SOCKADDR_IN));
 	memcpy((PCHAR)&pinAddr->sin_addr, hostent->h_addr, hostent->h_length);
 
 	pinAddr -> sin_family				= AF_INET;
-	pinAddr -> sin_port					= htons(socks->portNumber);
+	pinAddr -> sin_port					= htons(sockSessn->portNumber);
 
-	INT len = socks -> inAddrLen = sizeof(*pinAddr);	// inAddr length
-	INT pro = socks -> protocol;											// protocol type
+	INT len = sockSessn -> inAddrLen = sizeof(*pinAddr);	// inAddr length
 
-	if((socks->workSock = WSASocket(AF_INET, pro, 0, 0, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET) {
+	if((sockSessn->workSock = WSASocket(AF_INET, SOCK_STREAM, 0, 0, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET) {
 		// put error handling code here
 		int err = GetLastError();
 		return FALSE;
@@ -32,9 +31,9 @@ INT createSendSocket(SocketsComponent* socks)
 -- DESIGNER:		Sam Youssef
 -- PROGRAMMER:	Sam Youssef
 --
--- INTERFACE:		void createBoundSocket(SocketsComponent* socks)
+-- INTERFACE:		void createBoundSocket(SocketsComponent* sockSessn)
 --
---							SocketsComponent* socks: struct containing socket initialization arguments.
+--							SocketsComponent* sockSessn: struct containing socket initialization arguments.
 --								
 -- RETURNS:		INT. TRUE on success, FALSE on failure
 --
@@ -42,28 +41,27 @@ INT createSendSocket(SocketsComponent* socks)
 --
 -- Creates an asynchronous socket to listen for connections and binds it to a port.
 ----------------------------------------------------------------------------------------------------------------------*/
-INT createBoundSocket(SocketsComponent* socks)
+INT createBoundSocket(SocketsComponent* sockSessn)
 {
-	SOCKADDR_IN *pinAddr = &(socks->inAddr); // SOCKADDR_IN
+	SOCKADDR_IN *pinAddr = &(sockSessn->inAddr); // SOCKADDR_IN
 
 	memset((PCHAR)pinAddr, 0, sizeof(SOCKADDR_IN));
 
 	pinAddr -> sin_family				= AF_INET;
 	pinAddr -> sin_addr.s_addr	= htonl(INADDR_ANY);
-	pinAddr -> sin_port					= htons(socks->portNumber);
+	pinAddr -> sin_port					= htons(sockSessn->portNumber);
 
 
-	INT len = socks -> inAddrLen = sizeof(*pinAddr);	// inAddr length
-	INT pro = socks -> protocol;											// protocol type
+	INT len = sockSessn -> inAddrLen = sizeof(*pinAddr);	// inAddr length
 
 
-	if((socks->listenSock = WSASocket(AF_INET, SOCK_STREAM, 0, 0, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET) {
+	if((sockSessn->listenSock = WSASocket(AF_INET, SOCK_STREAM, 0, 0, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET) {
 		// put error handling code here
 		int err = GetLastError();
 		return FALSE;
 	}
 
-	if(bind(socks->listenSock, (PSOCKADDR) pinAddr, len) == SOCKET_ERROR) {
+	if(bind(sockSessn->listenSock, (PSOCKADDR) pinAddr, len) == SOCKET_ERROR) {
 		// put error handling code here
 		int err = GetLastError();
 		return FALSE;
@@ -116,12 +114,12 @@ INT initWorld(World* world)
 	int cos = world->clientOrServer;
 
 	if(cos == SERVER) {
-		if( ! initServer(&world->sockTcp, &world->sockUdp)) 
+		if( ! initServer(&world->sockSessn, &world->sockMulti)) 
 			return FALSE;
 	}
 
 	else if(cos == CLIENT) {
-		if( ! initClient(&world->sockTcp, &world->sockUdp)) 
+		if( ! initClient(&world->sockSessn, &world->sockMulti)) 
 			return FALSE;
 	}
 

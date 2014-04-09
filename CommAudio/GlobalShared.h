@@ -9,6 +9,8 @@
 #define SERVER 1
 #define CLIENT 2
 
+#define TERMINATE_THRD WM_USER+1
+
 #include <winsock2.h> // components.h
 #include <ws2tcpip.h> // components.h
 #include <Windows.h>  // all of 'em
