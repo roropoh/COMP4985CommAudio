@@ -8,12 +8,12 @@ INT createSendSocket(UnicastComponent *sockSessn)
 	memset((PCHAR)pinAddr, 0, sizeof(SOCKADDR_IN));
 	memcpy((PCHAR)&pinAddr->sin_addr, hostent->h_addr, hostent->h_length);
 
-	pinAddr -> sin_family				= AF_INET;
-	pinAddr -> sin_port					= htons(sockSessn->portNumber);
+	pinAddr->sin_family = AF_INET;
+	pinAddr->sin_port = htons(sockSessn->portNumber);
 
-	INT len = sockSessn -> inAddrLen = sizeof(*pinAddr);	// inAddr length
+	INT len = sockSessn->inAddrLen = sizeof(*pinAddr);	// inAddr length
 
-	if((sockSessn->workSock = WSASocket(AF_INET, SOCK_STREAM, 0, 0, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET) {
+	if ((sockSessn->workSock = WSASocket(AF_INET, SOCK_STREAM, 0, 0, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET) {
 		// put error handling code here
 		int err = GetLastError();
 		return FALSE;
@@ -34,7 +34,7 @@ INT createSendSocket(UnicastComponent *sockSessn)
 -- INTERFACE:		void createBoundSocket(SocketsComponent* sockSessn)
 --
 --							SocketsComponent* sockSessn: struct containing socket initialization arguments.
---								
+--
 -- RETURNS:		INT. TRUE on success, FALSE on failure
 --
 -- NOTES:
@@ -47,21 +47,21 @@ INT createBoundSocket(UnicastComponent *sockSessn)
 
 	memset((PCHAR)pinAddr, 0, sizeof(SOCKADDR_IN));
 
-	pinAddr -> sin_family				= AF_INET;
-	pinAddr -> sin_addr.s_addr	= htonl(INADDR_ANY);
-	pinAddr -> sin_port					= htons(sockSessn->portNumber);
+	pinAddr->sin_family = AF_INET;
+	pinAddr->sin_addr.s_addr = htonl(INADDR_ANY);
+	pinAddr->sin_port = htons(sockSessn->portNumber);
 
 
-	INT len = sockSessn -> inAddrLen = sizeof(*pinAddr);	// inAddr length
+	INT len = sockSessn->inAddrLen = sizeof(*pinAddr);	// inAddr length
 
 
-	if((sockSessn->listenSock = WSASocket(AF_INET, SOCK_STREAM, 0, 0, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET) {
+	if ((sockSessn->listenSock = WSASocket(AF_INET, SOCK_STREAM, 0, 0, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET) {
 		// put error handling code here
 		int err = GetLastError();
 		return FALSE;
 	}
 
-	if(bind(sockSessn->listenSock, (PSOCKADDR) pinAddr, len) == SOCKET_ERROR) {
+	if (bind(sockSessn->listenSock, (PSOCKADDR)pinAddr, len) == SOCKET_ERROR) {
 		// put error handling code here
 		int err = GetLastError();
 		return FALSE;
@@ -71,7 +71,7 @@ INT createBoundSocket(UnicastComponent *sockSessn)
 
 static INT initUnicastComponent(UnicastComponent* sockSessn, INT initHostType(UnicastComponent*))
 {
-	sockSessn -> wsaEvent = WSACreateEvent();
+	sockSessn->wsaEvent = WSACreateEvent();
 
 	ZeroMemory(&sockSessn->overlapped, sizeof(WSAOVERLAPPED));
 
@@ -90,9 +90,9 @@ INT initMulticastComponent(MulticastComponent* sockMulti, INT createSocketType(M
 
 static VOID initBuffersComponent(BuffersComponent* buffs)
 {
-	buffs->packetSize	 = PACKETSIZE;
-	buffs->buffer			 = (CHAR*)calloc(buffs->packetSize, sizeof(CHAR));
-	buffs->dataBuf		 = (WSABUF*)calloc(1, sizeof(WSABUF));
+	buffs->packetSize = PACKETSIZE;
+	buffs->buffer = (CHAR*)calloc(buffs->packetSize, sizeof(CHAR));
+	buffs->dataBuf = (WSABUF*)calloc(1, sizeof(WSABUF));
 	buffs->dataBuf->len = buffs->packetSize;
 	buffs->dataBuf->buf = buffs->buffer;
 }
@@ -101,12 +101,12 @@ static VOID initBuffersComponent(BuffersComponent* buffs)
 static VOID initStatsComponent(StatsComponent* stats)
 {
 	// Init StatisticsComponent
-	stats->bytesSent			= 0;
-	stats->bytesReceived	= 0;
+	stats->bytesSent = 0;
+	stats->bytesReceived = 0;
 	stats->firstTimestamp = 0;
-	stats->lastTimestamp  = 0;
-	stats->packetSize			= PACKETSIZE;
-	stats->numPackets			= 0;
+	stats->lastTimestamp = 0;
+	stats->packetSize = PACKETSIZE;
+	stats->numPackets = 0;
 }
 
 /*------------------------------------------------------------------------------------------------------------------
@@ -132,16 +132,16 @@ INT initWorld(World* world)
 {
 	int cos = world->clientOrServer;
 
-	if(cos == SERVER) {
-		if( ! initUnicastComponent(&world->sockSessn, initServer)) 
+	if (cos == SERVER) {
+		if (!initUnicastComponent(&world->sockSessn, initServer))
 			return FALSE;
 
-		if( ! initMulticastComponent(&world->sockMulti, createServerBoundMulticastSocket)) 
+		if (!initMulticastComponent(&world->sockMulti, createServerBoundMulticastSocket))
 			return FALSE;
 	}
 
-	else if(cos == CLIENT) {
-		if( ! initUnicastComponent(&world->sockSessn, initClient)) 
+	else if (cos == CLIENT) {
+		if (!initUnicastComponent(&world->sockSessn, initClient))
 			return FALSE;
 	}
 

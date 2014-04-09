@@ -47,6 +47,13 @@ DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid)
 	msi.workSock	 = world->sockMulti.workSock;
 	msi.sockMulti = &world->sockMulti;
 
+	SocketInformation si;
+	si.overlapped = world->sockSessn.overlapped;
+	si.workSock = world->sockSessn.workSock;
+	si.buffer = world->buffs.buffer;
+	si.dataBuf = world->buffs.dataBuf;
+	si.wsaEvent = &world->sockSessn.wsaEvent;
+
 	DWORD sentBytes	= 0;
 	DWORD flags			= 0;
 
@@ -56,7 +63,7 @@ DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid)
 	}
 
 	while(TRUE) {
-		if(WSARecv(msi.workSock, (LPWSABUF)msi.dataBuf, 1, &sentBytes, &flags, &msi.overlapped, doRetrieveSessionWork) == SOCKET_ERROR) {
+		if(WSARecv(si.workSock, (LPWSABUF)si.dataBuf, 1, &sentBytes, &flags, &si.overlapped, doRetrieveSessionWork) == SOCKET_ERROR) {
 			if(GetLastError() != WSA_IO_PENDING) {
 				//closeRecvEverything(&sinf, "Socket error");
 				int err = GetLastError();
@@ -64,7 +71,7 @@ DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid)
 			}
 		}
 
-		if(waitForWSAEventToComplete(msi.wsaEvent) == FALSE)
+		if(waitForWSAEventToComplete(si.wsaEvent) == FALSE)
 			return FALSE;
 
 		//break;
