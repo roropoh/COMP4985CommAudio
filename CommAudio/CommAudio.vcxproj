@@ -95,12 +95,10 @@
     <ClInclude Include="SmallStructs.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ClientGUI.cpp" />
     <ClCompile Include="ClientSession.cpp" />
     <ClCompile Include="Components.cpp" />
     <ClCompile Include="Multicast.cpp" />
     <ClCompile Include="MyForm.cpp" />
-    <ClCompile Include="ServerGUI.cpp" />
     <ClCompile Include="ServerSession.cpp" />
     <ClCompile Include="Shared.cpp" />
   </ItemGroup>
