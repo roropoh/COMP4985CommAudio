@@ -4,14 +4,8 @@ VOID CALLBACK doSendSessionWork(DWORD error, DWORD bytesTransferred, LPWSAOVERLA
 DWORD WINAPI sendSessionToClient(LPVOID pVoid);
 
 
-INT initServer(SocketsComponent* sockSessn, MulticastComponent* sockMulti)
+INT initServer(UnicastComponent* sockSessn)
 {
-	sockSessn->wsaEvent = WSACreateEvent();
-	sockMulti->wsaEvent = WSACreateEvent();
-
-	ZeroMemory(&sockSessn->overlapped, sizeof(WSAOVERLAPPED));
-	ZeroMemory(&sockMulti->overlapped, sizeof(WSAOVERLAPPED));
-
 	// TCP
 	if(createBoundSocket(sockSessn) == 0) {
 		// put error handling code here
@@ -21,9 +15,6 @@ INT initServer(SocketsComponent* sockSessn, MulticastComponent* sockMulti)
 		// put error handling code here
 		return 0;
 	}
-
-	// UDP
-	createServerBoundMulticastSocket(sockMulti);
 	return 1;
 }
 
@@ -32,13 +23,13 @@ INT initServer(SocketsComponent* sockSessn, MulticastComponent* sockMulti)
 DWORD WINAPI waitForConnections(LPVOID pVoid)
 {
 	World* world = (World*)pVoid;
-	SocketsComponent* sockSessn = &world->sockSessn;
+	UnicastComponent* sockSessn = &world->sockSessn;
 
 	SOCKADDR_IN* pinAddr		= &sockSessn->inAddr;
 	INT*         pinAddrLen	= &sockSessn->inAddrLen;
 	INT					 lsnSock		= sockSessn->listenSock;
 
-	MSG thrdMsg;
+	//MSG thrdMsg;
 
 	while(TRUE)
 	{
@@ -91,20 +82,20 @@ DWORD WINAPI sendSessionToClient(LPVOID pVoid)
 	World* world = (World*)pVoid;
 
 	SocketInformation si;
-	si.overlapped = &world->sockSessn.overlapped;
-	si.dataBuf		= &world->buffs.dataBuf;
+	si.overlapped = world->sockSessn.overlapped;
+	si.workSock		= world ->sockSessn.workSock;
+	si.buffer			= world ->buffs.buffer;
+	si.dataBuf		= world->buffs.dataBuf;
 	si.wsaEvent		= &world->sockSessn.wsaEvent;
-	si.buffer			= world->buffs.buffer;
-	si.workSock		= world->sockSessn.workSock;
 
 	DWORD sentBytes	= 0;
 	DWORD flags			= 0;
 
-	strcpy(si.buffer, world->sockMulti.ip);
+	strcpy_s(si.buffer, MAXBUFLEN, world->sockMulti.ip);
 
 	
 	while(TRUE) {
-		if(WSASend(si.workSock, (LPWSABUF)si.dataBuf, 1, &sentBytes, flags, si.overlapped, doSendSessionWork) == SOCKET_ERROR) {
+		if(WSASend(si.workSock, (LPWSABUF)si.dataBuf, 1, &sentBytes, flags, &si.overlapped, doSendSessionWork) == SOCKET_ERROR) {
 			if(GetLastError() != WSA_IO_PENDING) {
 				//closeSendEverything(&sinf, "Socket error");
 				int err = GetLastError();
@@ -151,13 +142,12 @@ VOID CALLBACK doSendSessionWork(DWORD error, DWORD bytesTransferred, LPWSAOVERLA
 	DWORD sentBytes = 0;
 	DWORD flags			= 0;
 
-
 	if( error != 0 || bytesTransferred == 0 ) {
 		// close everything
 		return;
 	}
 
-	if(WSASend(si->workSock, (LPWSABUF)si->dataBuf, 1, &sentBytes, flags, si->overlapped, doSendSessionWork) == SOCKET_ERROR) {
+	if(WSASend(si->workSock, (LPWSABUF)si->dataBuf, 1, &sentBytes, flags, &si->overlapped, doSendSessionWork) == SOCKET_ERROR) {
 		if(GetLastError() != WSA_IO_PENDING) {
 			int err = GetLastError();
 			//closeSendEverything(&sinf, "Socket error");

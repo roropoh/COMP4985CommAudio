@@ -27,13 +27,13 @@ typedef struct {
 	INT					inAddrLen;
 	INT					portNumber;
 	CHAR				ip[MAXBUFLEN];
-} SocketsComponent;
+} UnicastComponent;
 
 
 typedef struct {
-	WSABUF dataBuf;
-	CHAR*  buffer;
-	INT		 packetSize;
+	WSABUF* dataBuf;
+	CHAR*   buffer;
+	INT		  packetSize;
 } BuffersComponent;
 
 
@@ -53,11 +53,11 @@ typedef struct {
 
 
 typedef struct {
-	SocketsComponent sockSessn;
+	UnicastComponent	 sockSessn;
 	MulticastComponent sockMulti;
-	BuffersComponent buffs;
-	StatsComponent	 stats;
-	MediaComponent	 media;
+	BuffersComponent	 buffs;
+	//StatsComponent	 stats;
+	//MediaComponent	 media;
 	INT clientOrServer;
 } World;
 

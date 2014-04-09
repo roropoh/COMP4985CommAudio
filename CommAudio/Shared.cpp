@@ -9,11 +9,10 @@ void initWSA() {
 	wVersionRequested = MAKEWORD(2, 2);
 
 	if (WSAStartup(wVersionRequested, &WSAData) != 0) {
-		//MessageBox("WSAStartup failed with error (" + WSAGetLastError() + ")", "Error");
+		//MessageBox::Show("WSAStartup failed with error (" + WSAGetLastError() + ")", "Error");
 		WSACleanup();
 		exit(1);
 	}
-
 }
 
 /*------------------------------------------------------------------------------------------------------------------

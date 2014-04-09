@@ -1,5 +1,9 @@
 #include "Master.h"
 
+
+#include <stdio.h>
+
+
 void CALLBACK doRecvMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVERLAPPED overlapped, DWORD inFlags);
 VOID CALLBACK doSendMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVERLAPPED overlapped, DWORD inFlags);
 DWORD WINAPI sendSessionToClient(LPVOID pVoid);
@@ -14,9 +18,9 @@ DWORD WINAPI sendMulticast(LPVOID pVoid)
 	INT						   len =  world->sockMulti.dstAddrLen;
 
 	MulticastSocketInformation msi;
-	msi.overlapped = &world->sockMulti.overlapped;
-	msi.dataBuf		 = &world->buffs.dataBuf;
+	msi.overlapped = world->sockMulti.overlapped;
 	msi.wsaEvent	 = &world->sockMulti.wsaEvent;
+	msi.dataBuf		 = world->buffs.dataBuf;
 	msi.buffer		 = world->buffs.buffer;
 	msi.workSock	 = world->sockMulti.workSock;
 	msi.dstAddr	   = dstAddr;
@@ -25,12 +29,11 @@ DWORD WINAPI sendMulticast(LPVOID pVoid)
 	DWORD sentBytes	= 0;
 	DWORD flags			= 0;
 
-
-	strcpy(msi.buffer, "HOHO This is a packet 1024 bits long.");
+	strcpy(msi.buffer, "0. HOHO This is a packet 1024 bits long.");
 	
 	while(TRUE) {
 
-		if(WSASendTo((msi.workSock), msi.dataBuf, 1, &sentBytes, flags, (SOCKADDR*)dstAddr, len, msi.overlapped, doSendMulticastWork) == SOCKET_ERROR)
+		if(WSASendTo((msi.workSock), msi.dataBuf, 1, &sentBytes, flags, (SOCKADDR*)dstAddr, len, &msi.overlapped, doSendMulticastWork) == SOCKET_ERROR)
 			if(GetLastError() != WSA_IO_PENDING) {
 				//closeSendEverything(&sinf, "Socket error");
 				int err = GetLastError();
@@ -52,9 +55,10 @@ void CALLBACK doSendMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 	MulticastSocketInformation * msi = (MulticastSocketInformation*) overlapped;
 	
 	DWORD sentBytes = 0;
-	DWORD flags		= 0;
-	INT	  err		= 0;
+	DWORD flags		  = 0;
 
+	int i = 0;
+	sprintf(msi->buffer,"%d. HOHO THIS IS A PACKET", i);
 	//si -> bytesSent += bytesTransferred;
 	
 	if( error != 0 || bytesTransferred == 0 )
@@ -64,7 +68,7 @@ void CALLBACK doSendMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 	}
 
 
-	if(WSASendTo((msi->workSock), msi->dataBuf, 1, &sentBytes, flags, (SOCKADDR*)msi->dstAddr, msi->dstAddrLen, msi->overlapped, doSendMulticastWork) == SOCKET_ERROR)	{
+	if(WSASendTo((msi->workSock), msi->dataBuf, 1, &sentBytes, flags, (SOCKADDR*)msi->dstAddr, msi->dstAddrLen, &msi->overlapped, doSendMulticastWork) == SOCKET_ERROR)	{
 		if(GetLastError() != WSA_IO_PENDING)
 		{
 			//closeRecvEverything(sinf, "Socket error");
@@ -86,7 +90,7 @@ DWORD WINAPI recvMulticast(LPVOID pVoid) {
 
 	while( TRUE )
 	{
-		if(WSARecvFrom(msi->workSock, msi->dataBuf, 1, &recvBytes, &flags, (SOCKADDR*)msi->dstAddr, &msi->dstAddrLen, msi->overlapped, doRecvMulticastWork) == SOCKET_ERROR)
+		if(WSARecvFrom(msi->workSock, msi->dataBuf, 1, &recvBytes, &flags, (SOCKADDR*)msi->dstAddr, &msi->dstAddrLen, &msi->overlapped, doRecvMulticastWork) == SOCKET_ERROR)
 		{
 			if(GetLastError() != WSA_IO_PENDING)
 			{
@@ -119,7 +123,7 @@ VOID CALLBACK doRecvMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 	}
 
 
-	if(WSARecvFrom(msi->workSock, msi->dataBuf, 1, &recvBytes, &flags, (SOCKADDR*)msi->dstAddr, &msi->dstAddrLen, msi->overlapped, doRecvMulticastWork) == SOCKET_ERROR)
+	if(WSARecvFrom(msi->workSock, msi->dataBuf, 1, &recvBytes, &flags, (SOCKADDR*)msi->dstAddr, &msi->dstAddrLen, &msi->overlapped, doRecvMulticastWork) == SOCKET_ERROR)
 	{
 		if(GetLastError() != WSA_IO_PENDING)
 		{
@@ -130,8 +134,6 @@ VOID CALLBACK doRecvMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 
 	return;
 }
-
-
 
 
 
