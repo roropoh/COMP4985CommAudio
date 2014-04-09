@@ -90,32 +90,33 @@ namespace CommAudio {
 			// 
 			// menuStrip1
 			// 
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->fileToolStripMenuItem });
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->fileToolStripMenuItem});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(522, 28);
+			this->menuStrip1->Padding = System::Windows::Forms::Padding(4, 2, 0, 2);
+			this->menuStrip1->Size = System::Drawing::Size(392, 24);
 			this->menuStrip1->TabIndex = 0;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
 			// fileToolStripMenuItem
 			// 
-			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->exitToolStripMenuItem });
+			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->exitToolStripMenuItem});
 			this->fileToolStripMenuItem->Name = L"fileToolStripMenuItem";
-			this->fileToolStripMenuItem->Size = System::Drawing::Size(44, 24);
+			this->fileToolStripMenuItem->Size = System::Drawing::Size(37, 20);
 			this->fileToolStripMenuItem->Text = L"File";
 			// 
 			// exitToolStripMenuItem
 			// 
 			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(175, 24);
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(92, 22);
 			this->exitToolStripMenuItem->Text = L"Exit";
 			// 
 			// start_button
 			// 
-			this->start_button->Location = System::Drawing::Point(427, 70);
-			this->start_button->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->start_button->Location = System::Drawing::Point(320, 57);
+			this->start_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->start_button->Name = L"start_button";
-			this->start_button->Size = System::Drawing::Size(75, 23);
+			this->start_button->Size = System::Drawing::Size(56, 19);
 			this->start_button->TabIndex = 19;
 			this->start_button->Text = L"start";
 			this->start_button->UseVisualStyleBackColor = true;
@@ -123,88 +124,87 @@ namespace CommAudio {
 			// 
 			// progressBar1
 			// 
-			this->progressBar1->Location = System::Drawing::Point(21, 138);
-			this->progressBar1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->progressBar1->Location = System::Drawing::Point(16, 112);
+			this->progressBar1->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->progressBar1->Name = L"progressBar1";
-			this->progressBar1->Size = System::Drawing::Size(399, 23);
+			this->progressBar1->Size = System::Drawing::Size(299, 19);
 			this->progressBar1->TabIndex = 18;
 			// 
 			// songlist
 			// 
 			this->songlist->FormattingEnabled = true;
-			this->songlist->ItemHeight = 16;
-			this->songlist->Location = System::Drawing::Point(21, 207);
-			this->songlist->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->songlist->Location = System::Drawing::Point(16, 168);
+			this->songlist->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->songlist->Name = L"songlist";
-			this->songlist->Size = System::Drawing::Size(480, 180);
+			this->songlist->Size = System::Drawing::Size(361, 147);
 			this->songlist->TabIndex = 17;
 			// 
 			// groupBox1
 			// 
-			this->groupBox1->Location = System::Drawing::Point(21, 36);
-			this->groupBox1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->groupBox1->Location = System::Drawing::Point(16, 29);
+			this->groupBox1->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Padding = System::Windows::Forms::Padding(3, 2, 3, 2);
-			this->groupBox1->Size = System::Drawing::Size(399, 92);
+			this->groupBox1->Padding = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->groupBox1->Size = System::Drawing::Size(299, 75);
 			this->groupBox1->TabIndex = 16;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Status";
 			// 
 			// fwd_button
 			// 
-			this->fwd_button->Location = System::Drawing::Point(345, 170);
-			this->fwd_button->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->fwd_button->Location = System::Drawing::Point(259, 138);
+			this->fwd_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->fwd_button->Name = L"fwd_button";
-			this->fwd_button->Size = System::Drawing::Size(75, 23);
+			this->fwd_button->Size = System::Drawing::Size(56, 19);
 			this->fwd_button->TabIndex = 15;
 			this->fwd_button->Text = L"fwd";
 			this->fwd_button->UseVisualStyleBackColor = true;
 			// 
 			// stop_button
 			// 
-			this->stop_button->Location = System::Drawing::Point(264, 170);
-			this->stop_button->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->stop_button->Location = System::Drawing::Point(198, 138);
+			this->stop_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->stop_button->Name = L"stop_button";
-			this->stop_button->Size = System::Drawing::Size(75, 23);
+			this->stop_button->Size = System::Drawing::Size(56, 19);
 			this->stop_button->TabIndex = 14;
 			this->stop_button->Text = L"stop";
 			this->stop_button->UseVisualStyleBackColor = true;
 			// 
 			// pause_button
 			// 
-			this->pause_button->Location = System::Drawing::Point(183, 170);
-			this->pause_button->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->pause_button->Location = System::Drawing::Point(137, 138);
+			this->pause_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->pause_button->Name = L"pause_button";
-			this->pause_button->Size = System::Drawing::Size(75, 23);
+			this->pause_button->Size = System::Drawing::Size(56, 19);
 			this->pause_button->TabIndex = 13;
 			this->pause_button->Text = L"pause";
 			this->pause_button->UseVisualStyleBackColor = true;
 			// 
 			// rew_button
 			// 
-			this->rew_button->Location = System::Drawing::Point(21, 170);
-			this->rew_button->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->rew_button->Location = System::Drawing::Point(16, 138);
+			this->rew_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->rew_button->Name = L"rew_button";
-			this->rew_button->Size = System::Drawing::Size(75, 23);
+			this->rew_button->Size = System::Drawing::Size(56, 19);
 			this->rew_button->TabIndex = 12;
 			this->rew_button->Text = L"rew";
 			this->rew_button->UseVisualStyleBackColor = true;
 			// 
 			// play_button
 			// 
-			this->play_button->Location = System::Drawing::Point(101, 170);
-			this->play_button->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->play_button->Location = System::Drawing::Point(76, 138);
+			this->play_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->play_button->Name = L"play_button";
-			this->play_button->Size = System::Drawing::Size(75, 23);
+			this->play_button->Size = System::Drawing::Size(56, 19);
 			this->play_button->TabIndex = 11;
 			this->play_button->Text = L"play";
 			this->play_button->UseVisualStyleBackColor = true;
 			// 
 			// ServerGUI
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(522, 417);
+			this->ClientSize = System::Drawing::Size(392, 339);
 			this->Controls->Add(this->start_button);
 			this->Controls->Add(this->progressBar1);
 			this->Controls->Add(this->songlist);
@@ -216,8 +216,10 @@ namespace CommAudio {
 			this->Controls->Add(this->play_button);
 			this->Controls->Add(this->menuStrip1);
 			this->MainMenuStrip = this->menuStrip1;
+			this->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->Name = L"ServerGUI";
 			this->Text = L"Comm Audio - Server";
+			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &ServerGUI::ServerGUI_FormClosing);
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			this->ResumeLayout(false);
@@ -239,5 +241,8 @@ namespace CommAudio {
 					 CreateThread(0, 0, sendMulticast, (LPVOID)world, 0, &multicastThreadId);
 				 }
 	}
-	};
+	private: System::Void ServerGUI_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
+				 Application::Exit();
+			 }
+};
 }
