@@ -20,7 +20,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -76,42 +76,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Client.cpp" />
-    <ClCompile Include="MyForm.cpp" />
-    <ClCompile Include="ServerGUI.cpp" />
-    <ClCompile Include="ServerMulticast.cpp" />
-    <ClCompile Include="Components.cpp" />
-    <ClCompile Include="ServerTcp.cpp" />
+    <ResourceCompile Include="CommAudio.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClientGUI.h" />
+    <ClInclude Include="Components.h" />
     <ClInclude Include="GlobalShared.h" />
     <ClInclude Include="Master.h" />
-    <ClInclude Include="ClientGUI.h">
-      <FileType>CppForm</FileType>
-    </ClInclude>
-    <ClInclude Include="Components.h" />
-    <ClInclude Include="MyForm.h">
-      <FileType>CppForm</FileType>
-    </ClInclude>
+    <ClInclude Include="MyForm.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="ServerGUI.h">
-      <FileType>CppForm</FileType>
-    </ClInclude>
+    <ClInclude Include="ServerGUI.h" />
     <ClInclude Include="SmallStructs.h" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ClientGUI.resx">
-      <DependentUpon>ClientGUI.h</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm.resx">
-      <DependentUpon>MyForm.h</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ServerGUI.resx">
-      <DependentUpon>ServerGUI.h</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="CommAudio.rc" />
+    <ClCompile Include="ClientSession.cpp" />
+    <ClCompile Include="Components.cpp" />
+    <ClCompile Include="Multicast.cpp" />
+    <ClCompile Include="MyForm.cpp" />
+    <ClCompile Include="ServerGUI.cpp" />
+    <ClCompile Include="ServerSession.cpp" />
+    <ClCompile Include="Shared.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -232,8 +232,7 @@ namespace CommAudio {
 				 world = (World*)calloc(1, sizeof(World));
 
 				 world->clientOrServer = SERVER;
-				 world->sockTcp.protocol = SOCK_STREAM;
-				 world->sockTcp.portNumber = DEFAULT_SERVERPORT;
+				 world->sockSessn.portNumber = DEFAULT_SERVERPORT;
 
 				 if (initWorld(world)) {
 					 CreateThread(0, 0, waitForConnections, (LPVOID)world, 0, &waitThreadId);
