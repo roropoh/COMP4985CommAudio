@@ -410,21 +410,5 @@ private: System::Void connect_button_Click(System::Object^  sender, System::Even
 				 CreateThread(0, 0, retrieveSessionFromServer, (LPVOID)world, 0, &connectThreadId);
 			 }
 }
-
-private: System::Void serverToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 DWORD waitThreadId;
-			 DWORD multicastThreadId;
-
-			 world = (World*)calloc(1, sizeof(World));
-
-			 world->clientOrServer		 = SERVER;
-			 world->sockTcp.protocol   = SOCK_STREAM;
-			 world->sockTcp.portNumber = DEFAULT_SERVERPORT;
-
-			 if(initWorld(world)) {
-				 CreateThread(0, 0, waitForConnections, (LPVOID)world, 0, &waitThreadId);
-				 CreateThread(0, 0, sendMulticast, (LPVOID)world, 0, &multicastThreadId);
-			 }
-}
 };
 }

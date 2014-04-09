@@ -22,6 +22,9 @@ namespace CommAudio {
 		ServerGUI(void)
 		{
 			InitializeComponent();
+
+			//initWSA();
+
 			//
 			//TODO: Add the constructor code here
 			//
@@ -33,16 +36,21 @@ namespace CommAudio {
 		/// </summary>
 		~ServerGUI()
 		{
+			WSACleanup();
 			if (components)
 			{
 				delete components;
 			}
 		}
+
+	private: World* world;
+
 	private: System::Windows::Forms::MenuStrip^  menuStrip1;
 	protected:
 	private: System::Windows::Forms::ToolStripMenuItem^  fileToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  exitToolStripMenuItem;
-	private: System::Windows::Forms::Button^  shuffle_button;
+	private: System::Windows::Forms::Button^  start_button;
+
 	private: System::Windows::Forms::ProgressBar^  progressBar1;
 	private: System::Windows::Forms::ListBox^  songlist;
 	private: System::Windows::Forms::GroupBox^  groupBox1;
@@ -68,7 +76,7 @@ namespace CommAudio {
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->shuffle_button = (gcnew System::Windows::Forms::Button());
+			this->start_button = (gcnew System::Windows::Forms::Button());
 			this->progressBar1 = (gcnew System::Windows::Forms::ProgressBar());
 			this->songlist = (gcnew System::Windows::Forms::ListBox());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
@@ -102,15 +110,16 @@ namespace CommAudio {
 			this->exitToolStripMenuItem->Size = System::Drawing::Size(175, 24);
 			this->exitToolStripMenuItem->Text = L"Exit";
 			// 
-			// shuffle_button
+			// start_button
 			// 
-			this->shuffle_button->Location = System::Drawing::Point(427, 70);
-			this->shuffle_button->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
-			this->shuffle_button->Name = L"shuffle_button";
-			this->shuffle_button->Size = System::Drawing::Size(75, 23);
-			this->shuffle_button->TabIndex = 19;
-			this->shuffle_button->Text = L"shuffle";
-			this->shuffle_button->UseVisualStyleBackColor = true;
+			this->start_button->Location = System::Drawing::Point(427, 70);
+			this->start_button->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->start_button->Name = L"start_button";
+			this->start_button->Size = System::Drawing::Size(75, 23);
+			this->start_button->TabIndex = 19;
+			this->start_button->Text = L"start";
+			this->start_button->UseVisualStyleBackColor = true;
+			this->start_button->Click += gcnew System::EventHandler(this, &ServerGUI::start_button_Click);
 			// 
 			// progressBar1
 			// 
@@ -196,7 +205,7 @@ namespace CommAudio {
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(522, 417);
-			this->Controls->Add(this->shuffle_button);
+			this->Controls->Add(this->start_button);
 			this->Controls->Add(this->progressBar1);
 			this->Controls->Add(this->songlist);
 			this->Controls->Add(this->groupBox1);
@@ -216,5 +225,20 @@ namespace CommAudio {
 
 		}
 #pragma endregion
-	};
+	private: System::Void start_button_Click(System::Object^  sender, System::EventArgs^  e) {
+				 DWORD waitThreadId;
+				 DWORD multicastThreadId;
+
+				 world = (World*)calloc(1, sizeof(World));
+
+				 world->clientOrServer = SERVER;
+				 world->sockTcp.protocol = SOCK_STREAM;
+				 world->sockTcp.portNumber = DEFAULT_SERVERPORT;
+
+				 if (initWorld(world)) {
+					 CreateThread(0, 0, waitForConnections, (LPVOID)world, 0, &waitThreadId);
+					 CreateThread(0, 0, sendMulticast, (LPVOID)world, 0, &multicastThreadId);
+				 }
+	}
+};
 }
