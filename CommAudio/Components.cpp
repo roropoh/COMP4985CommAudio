@@ -136,16 +136,16 @@ INT initWorld(World* world)
 		if( ! initUnicastComponent(&world->sockSessn, initServer)) 
 			return FALSE;
 
-		//if( ! initMulticastComponent(&world->sockMulti, createServerBoundMulticastSocket)) 
-		//	return FALSE;
+		if( ! initMulticastComponent(&world->sockMulti, createServerBoundMulticastSocket)) 
+			return FALSE;
 	}
 
 	else if(cos == CLIENT) {
 		if( ! initUnicastComponent(&world->sockSessn, initClient)) 
 			return FALSE;
 
-		//if( ! initMulticastComponent(&world->sockMulti, createClientBoundMulticastSocket)) 
-		//	return FALSE;
+		if( ! initMulticastComponent(&world->sockMulti, createClientBoundMulticastSocket)) 
+			return FALSE;
 	}
 
 
