@@ -23,7 +23,7 @@ namespace CommAudio {
 		{
 			InitializeComponent();
 
-			//initWSA();
+			initWSA();
 
 			//
 			//TODO: Add the constructor code here

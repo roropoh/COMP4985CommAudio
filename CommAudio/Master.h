@@ -5,6 +5,7 @@
 #include "SmallStructs.h"
 
 // Shared.cpp
+void initWSA();
 BOOL waitForWSAEventToComplete(WSAEVENT* event);
 
 // Components.cpp

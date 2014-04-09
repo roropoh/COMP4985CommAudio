@@ -373,21 +373,6 @@ namespace CommAudio {
 			// udpMulticast <> doUdpMulticastWork
 			// close
 
-private: System::Void initWSA() {
-			 
-			WORD wVersionRequested;
-			WSADATA WSAData;
-
-			wVersionRequested = MAKEWORD(2, 2);
-
-			if (WSAStartup(wVersionRequested, &WSAData) != 0) {
-				MessageBox::Show("WSAStartup failed with error (" + WSAGetLastError() + ")", "Error");
-				WSACleanup();
-				exit(1);
-			}
-
-		}
-
 private: System::Void connect_button_Click(System::Object^  sender, System::EventArgs^  e) {
 			 char* textbox_ip_string;
 			 char* textbox_portnumber_string;

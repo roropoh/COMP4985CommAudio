@@ -1,6 +1,20 @@
 #include "Master.h"
 
 
+void initWSA() {
+
+	WORD wVersionRequested;
+	WSADATA WSAData;
+
+	wVersionRequested = MAKEWORD(2, 2);
+
+	if (WSAStartup(wVersionRequested, &WSAData) != 0) {
+		//MessageBox("WSAStartup failed with error (" + WSAGetLastError() + ")", "Error");
+		WSACleanup();
+		exit(1);
+	}
+
+}
 
 /*------------------------------------------------------------------------------------------------------------------
 -- FUNCTION: waitWSAEvntCompletes

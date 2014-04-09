@@ -20,7 +20,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -93,7 +93,6 @@
     <ClCompile Include="Components.cpp" />
     <ClCompile Include="Multicast.cpp" />
     <ClCompile Include="MyForm.cpp" />
-    <ClCompile Include="ServerGUI.cpp" />
     <ClCompile Include="ServerSession.cpp" />
     <ClCompile Include="Shared.cpp" />
   </ItemGroup>
