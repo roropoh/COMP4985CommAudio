@@ -43,7 +43,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>E:\Dropbox\2014 BCIT Winter\COMP 4985 DataComm Option\Assignment 4 %28Final Project%29\COMP4985CommAudio\CommAudio\bass\c;C:\Users\Tim\Source\Repos\COMP4985CommAudio\CommAudio\bass\c;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\pc1\Documents\GitHub\COMP4985CommAudio\CommAudio\bass\c;E:\Dropbox\2014 BCIT Winter\COMP 4985 DataComm Option\Assignment 4 %28Final Project%29\COMP4985CommAudio\CommAudio\bass\c;C:\Users\Tim\Source\Repos\COMP4985CommAudio\CommAudio\bass\c;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

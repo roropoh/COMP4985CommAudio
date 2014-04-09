@@ -1,6 +1,6 @@
 #include "Master.h"
 
-INT createSendSocket(SocketsComponent* sockSessn)
+INT createSendSocket(UnicastComponent *sockSessn)
 {
 	SOCKADDR_IN* pinAddr = &(sockSessn->inAddr);
 	HOSTENT* hostent = gethostbyname(sockSessn->ip);
@@ -41,7 +41,7 @@ INT createSendSocket(SocketsComponent* sockSessn)
 --
 -- Creates an asynchronous socket to listen for connections and binds it to a port.
 ----------------------------------------------------------------------------------------------------------------------*/
-INT createBoundSocket(SocketsComponent* sockSessn)
+INT createBoundSocket(UnicastComponent *sockSessn)
 {
 	SOCKADDR_IN *pinAddr = &(sockSessn->inAddr); // SOCKADDR_IN
 
@@ -69,17 +69,36 @@ INT createBoundSocket(SocketsComponent* sockSessn)
 	return TRUE;
 }
 
-
-static void initBuffersComponent(BuffersComponent* buffs)
+static INT initUnicastComponent(UnicastComponent* sockSessn, INT initHostType(UnicastComponent*))
 {
-	buffs->packetSize		= PACKETSIZE; 
-	buffs->buffer				= (CHAR*)calloc(buffs->packetSize, sizeof(CHAR));
-	buffs->dataBuf.len	= buffs->packetSize;
-	buffs->dataBuf.buf	= buffs->buffer;
+	sockSessn -> wsaEvent = WSACreateEvent();
+
+	ZeroMemory(&sockSessn->overlapped, sizeof(WSAOVERLAPPED));
+
+	return initHostType(sockSessn);
+}
+
+static INT initMulticastComponent(MulticastComponent* sockMulti, INT createSocketType(MulticastComponent*))
+{
+	sockMulti->wsaEvent = WSACreateEvent();
+
+	ZeroMemory(&sockMulti->overlapped, sizeof(WSAOVERLAPPED));
+
+	return createSocketType(sockMulti);
 }
 
 
-static void initStatsComponent(StatsComponent* stats)
+static VOID initBuffersComponent(BuffersComponent* buffs)
+{
+	buffs->packetSize	 = PACKETSIZE;
+	buffs->buffer			 = (CHAR*)calloc(buffs->packetSize, sizeof(CHAR));
+	buffs->dataBuf		 = (WSABUF*)calloc(1, sizeof(WSABUF));
+	buffs->dataBuf->len = buffs->packetSize;
+	buffs->dataBuf->buf = buffs->buffer;
+}
+
+
+static VOID initStatsComponent(StatsComponent* stats)
 {
 	// Init StatisticsComponent
 	stats->bytesSent			= 0;
@@ -114,17 +133,30 @@ INT initWorld(World* world)
 	int cos = world->clientOrServer;
 
 	if(cos == SERVER) {
-		if( ! initServer(&world->sockSessn, &world->sockMulti)) 
+		if( ! initUnicastComponent(&world->sockSessn, initServer)) 
 			return FALSE;
+
+		//if( ! initMulticastComponent(&world->sockMulti, createServerBoundMulticastSocket)) 
+		//	return FALSE;
 	}
 
 	else if(cos == CLIENT) {
-		if( ! initClient(&world->sockSessn, &world->sockMulti)) 
+		if( ! initUnicastComponent(&world->sockSessn, initClient)) 
 			return FALSE;
+
+		//if( ! initMulticastComponent(&world->sockMulti, createClientBoundMulticastSocket)) 
+		//	return FALSE;
 	}
 
+
 	initBuffersComponent(&world->buffs);
-	initStatsComponent  (&world->stats);
+	//initStatsComponent  (&world->stats);
 
 	return TRUE;
+}
+
+
+VOID cleanWorld(World* world)
+{
+
 }

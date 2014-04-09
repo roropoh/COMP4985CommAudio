@@ -363,49 +363,31 @@ namespace CommAudio {
 		}
 #pragma endregion
 
-		//TCP
-		// new thread:
-		// ~struct: sendSockParams > socket, stats, buff
 
-		//TCP
-		// new thread:
-		// ~struct: recvSockParams > socket, stats, buff
-		// setRecvSockParams ( recvSockParams )
-		// createAndBindSock ( recvSockPrams -> socket )	
-		// listenForConnections ( (new) recvSockParams -> socket )
-		// if established -> new thread:
-		// tcpWithClient <> doTcpWithClientWork
-		// end
-		// back to listenForConnections
+private: System::Void connect_button_Click(System::Object^  sender, System::EventArgs^  e) {
+			 
+			 PCHAR textbox_ip_string;
+			 PCHAR textbox_portnumber_string;
+			 INT   textbox_portnumber_int;
 
-		// UDP
-		// new thread
-		// ~struct: recvSockParams > socket, stats, buff
-		// setSendSockParams ( sendSockParams )
-		// createAndBindSock ( sendSockPrams -> socket )
-		// udpMulticast <> doUdpMulticastWork
-		// close
+		   DWORD connectThreadId;
 
-	private: System::Void connect_button_Click(System::Object^  sender, System::EventArgs^  e) {
-				 char* textbox_ip_string;
-				 char* textbox_portnumber_string;
-				 INT textbox_portnumber_int;
-				 DWORD connectThreadId;
+			 textbox_ip_string					= (PCHAR)(PVOID)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_ip->Text);
+			 textbox_portnumber_string	= (PCHAR)(PVOID)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_portnumber->Text);
+			 textbox_portnumber_int			= atoi(textbox_portnumber_string);
+	
 
-				 world = (World*)calloc(1, sizeof(World));
+			 world = (World*)calloc(1, sizeof(World));
 
-				 world->clientOrServer = CLIENT;
 
-				 textbox_ip_string = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_ip->Text);
-				 textbox_portnumber_string = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_portnumber->Text);
-				 textbox_portnumber_int = atoi(textbox_portnumber_string);
 
-				 strcpy(world->sockSessn.ip, textbox_ip_string);
-				 world->sockSessn.portNumber = textbox_portnumber_int;
+			 strcpy_s(world->sockSessn.ip, MAXBUFLEN, textbox_ip_string);
 
-				 if (initWorld(world)) {
-					 CreateThread(0, 0, retrieveSessionFromServer, (LPVOID)world, 0, &connectThreadId);
-				 }
+			 world->sockSessn.portNumber = textbox_portnumber_int;
+			 world->clientOrServer       = CLIENT;
+			if(initWorld(world)) {
+				CreateThread(0, 0, retrieveSessionFromServer, (LPVOID)world, 0, &connectThreadId);
+			}
 	}
 	private: System::Void ClientGUI_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
 				 Application::Exit();
@@ -420,5 +402,6 @@ private: System::Void play_button_Click(System::Object^  sender, System::EventAr
 			 streamHandle = BASS_StreamCreateFile(FALSE, "ladygaga.wav", 0, 0, 0);
 			 BASS_ChannelPlay(streamHandle, FALSE);
 }
+
 };
 }
