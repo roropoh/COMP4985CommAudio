@@ -155,3 +155,7 @@ VOID CALLBACK doSendSessionWork(DWORD error, DWORD bytesTransferred, LPWSAOVERLA
 		}
 	}
 }
+
+VOID packetizeAudioData(World *world){
+
+}

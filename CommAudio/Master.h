@@ -3,6 +3,7 @@
 
 #include "Components.h"
 #include "SmallStructs.h"
+#include "bass.h"
 
 // Shared.cpp
 void initWSA();
