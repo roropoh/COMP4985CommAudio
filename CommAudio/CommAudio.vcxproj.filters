@@ -20,13 +20,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ServerGUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SmallStructs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ClientGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Components.h">
@@ -38,11 +32,17 @@
     <ClInclude Include="Master.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyForm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientGUI.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerGUI.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyForm.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -64,5 +64,14 @@
     <ClCompile Include="MyForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ClientGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

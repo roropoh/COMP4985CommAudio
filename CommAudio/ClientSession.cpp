@@ -130,10 +130,13 @@ void CALLBACK doRetrieveSessionWork(DWORD error, DWORD bytesTransferred, LPWSAOV
 
 	if(WSARecv(si->workSock, (LPWSABUF)si->dataBuf, 1, &recvBytes, &flags, si->overlapped, doRetrieveSessionWork) == SOCKET_ERROR) {
 		if(GetLastError() != WSA_IO_PENDING) {
+
 			int err = GetLastError();
 			//closeRecvEverything(&sinf, "Socket error");
 			return;
 		}
 	}
+
+	//Form::MessageBox::Show(si->dataBuf->buf);
 }
 

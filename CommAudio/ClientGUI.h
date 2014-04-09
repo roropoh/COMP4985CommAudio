@@ -103,6 +103,8 @@ namespace CommAudio {
 			this->fwd_button = (gcnew System::Windows::Forms::Button());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->connectToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->playToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->playToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->optionToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -116,8 +118,6 @@ namespace CommAudio {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->textbox_ip = (gcnew System::Windows::Forms::TextBox());
 			this->textbox_portnumber = (gcnew System::Windows::Forms::TextBox());
-			this->connectToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -193,6 +193,18 @@ namespace CommAudio {
 			this->fileToolStripMenuItem->Name = L"fileToolStripMenuItem";
 			this->fileToolStripMenuItem->Size = System::Drawing::Size(44, 24);
 			this->fileToolStripMenuItem->Text = L"File";
+			// 
+			// connectToolStripMenuItem
+			// 
+			this->connectToolStripMenuItem->Name = L"connectToolStripMenuItem";
+			this->connectToolStripMenuItem->Size = System::Drawing::Size(132, 24);
+			this->connectToolStripMenuItem->Text = L"Connect";
+			// 
+			// exitToolStripMenuItem
+			// 
+			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(132, 24);
+			this->exitToolStripMenuItem->Text = L"Exit";
 			// 
 			// playToolStripMenuItem
 			// 
@@ -295,7 +307,7 @@ namespace CommAudio {
 			this->textbox_ip->Name = L"textbox_ip";
 			this->textbox_ip->Size = System::Drawing::Size(225, 22);
 			this->textbox_ip->TabIndex = 13;
-			this->textbox_ip->Text = L"127.0.0.1";
+			this->textbox_ip->Text = L"192.168.0.21";
 			// 
 			// textbox_portnumber
 			// 
@@ -304,19 +316,7 @@ namespace CommAudio {
 			this->textbox_portnumber->Name = L"textbox_portnumber";
 			this->textbox_portnumber->Size = System::Drawing::Size(100, 22);
 			this->textbox_portnumber->TabIndex = 14;
-			this->textbox_portnumber->Text = L"5150";
-			// 
-			// connectToolStripMenuItem
-			// 
-			this->connectToolStripMenuItem->Name = L"connectToolStripMenuItem";
-			this->connectToolStripMenuItem->Size = System::Drawing::Size(175, 24);
-			this->connectToolStripMenuItem->Text = L"Connect";
-			// 
-			// exitToolStripMenuItem
-			// 
-			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(175, 24);
-			this->exitToolStripMenuItem->Text = L"Exit";
+			this->textbox_portnumber->Text = L"7000";
 			// 
 			// ClientGUI
 			// 
@@ -351,48 +351,48 @@ namespace CommAudio {
 #pragma endregion
 
 		//TCP
-			// new thread:
-			// ~struct: sendSockParams > socket, stats, buff
+		// new thread:
+		// ~struct: sendSockParams > socket, stats, buff
 
 		//TCP
-			// new thread:
-			// ~struct: recvSockParams > socket, stats, buff
-			// setRecvSockParams ( recvSockParams )
-			// createAndBindSock ( recvSockPrams -> socket )	
-			// listenForConnections ( (new) recvSockParams -> socket )
-			// if established -> new thread:
-				// tcpWithClient <> doTcpWithClientWork
-				// end
-			// back to listenForConnections
+		// new thread:
+		// ~struct: recvSockParams > socket, stats, buff
+		// setRecvSockParams ( recvSockParams )
+		// createAndBindSock ( recvSockPrams -> socket )	
+		// listenForConnections ( (new) recvSockParams -> socket )
+		// if established -> new thread:
+		// tcpWithClient <> doTcpWithClientWork
+		// end
+		// back to listenForConnections
 
 		// UDP
-			// new thread
-			// ~struct: recvSockParams > socket, stats, buff
-			// setSendSockParams ( sendSockParams )
-			// createAndBindSock ( sendSockPrams -> socket )
-			// udpMulticast <> doUdpMulticastWork
-			// close
+		// new thread
+		// ~struct: recvSockParams > socket, stats, buff
+		// setSendSockParams ( sendSockParams )
+		// createAndBindSock ( sendSockPrams -> socket )
+		// udpMulticast <> doUdpMulticastWork
+		// close
 
-private: System::Void connect_button_Click(System::Object^  sender, System::EventArgs^  e) {
-			 char* textbox_ip_string;
-			 char* textbox_portnumber_string;
-			 INT textbox_portnumber_int;
-		   	 DWORD connectThreadId;
-				
-			 world = (World*)calloc(1, sizeof(World));
+	private: System::Void connect_button_Click(System::Object^  sender, System::EventArgs^  e) {
+				 char* textbox_ip_string;
+				 char* textbox_portnumber_string;
+				 INT textbox_portnumber_int;
+				 DWORD connectThreadId;
 
-			 world->clientOrServer = CLIENT;
+				 world = (World*)calloc(1, sizeof(World));
 
-			 textbox_ip_string = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_ip->Text);
-			 textbox_portnumber_string = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_portnumber->Text);
-			 textbox_portnumber_int = atoi(textbox_portnumber_string);
+				 world->clientOrServer = CLIENT;
 
-			 strcpy(world->sockSessn.ip, textbox_ip_string);
-			 world->sockSessn.portNumber = textbox_portnumber_int;
+				 textbox_ip_string = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_ip->Text);
+				 textbox_portnumber_string = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_portnumber->Text);
+				 textbox_portnumber_int = atoi(textbox_portnumber_string);
 
-			 if(initWorld(world)) {
-				 CreateThread(0, 0, retrieveSessionFromServer, (LPVOID)world, 0, &connectThreadId);
-			 }
-}
-};
+				 strcpy(world->sockSessn.ip, textbox_ip_string);
+				 world->sockSessn.portNumber = textbox_portnumber_int;
+
+				 if (initWorld(world)) {
+					 CreateThread(0, 0, retrieveSessionFromServer, (LPVOID)world, 0, &connectThreadId);
+				 }
+	}
+	};
 }

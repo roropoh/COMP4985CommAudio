@@ -79,22 +79,41 @@
     <ResourceCompile Include="CommAudio.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ClientGUI.h" />
+    <ClInclude Include="ClientGUI.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Components.h" />
     <ClInclude Include="GlobalShared.h" />
     <ClInclude Include="Master.h" />
-    <ClInclude Include="MyForm.h" />
+    <ClInclude Include="MyForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="ServerGUI.h" />
+    <ClInclude Include="ServerGUI.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="SmallStructs.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ClientGUI.cpp" />
     <ClCompile Include="ClientSession.cpp" />
     <ClCompile Include="Components.cpp" />
     <ClCompile Include="Multicast.cpp" />
     <ClCompile Include="MyForm.cpp" />
+    <ClCompile Include="ServerGUI.cpp" />
     <ClCompile Include="ServerSession.cpp" />
     <ClCompile Include="Shared.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ClientGUI.resx">
+      <DependentUpon>ClientGUI.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServerGUI.resx">
+      <DependentUpon>ServerGUI.h</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

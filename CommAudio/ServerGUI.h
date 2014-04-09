@@ -239,5 +239,5 @@ namespace CommAudio {
 					 CreateThread(0, 0, sendMulticast, (LPVOID)world, 0, &multicastThreadId);
 				 }
 	}
-};
+	};
 }

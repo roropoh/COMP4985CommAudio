@@ -167,7 +167,7 @@ namespace CommAudio {
 				 ClientGUI ^ clientForm = gcnew ClientGUI();
 
 				 world = (World*)calloc(1, sizeof(World));
-				 
+
 				 world->clientOrServer = CLIENT;
 				 this->Hide();
 				 clientForm->Show();
