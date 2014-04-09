@@ -124,18 +124,17 @@ namespace CommAudio {
 			// shuffle_button
 			// 
 			this->shuffle_button->Location = System::Drawing::Point(320, 84);
-			this->shuffle_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->shuffle_button->Margin = System::Windows::Forms::Padding(2);
 			this->shuffle_button->Name = L"shuffle_button";
 			this->shuffle_button->Size = System::Drawing::Size(56, 19);
 			this->shuffle_button->TabIndex = 19;
 			this->shuffle_button->Text = L"shuffle";
 			this->shuffle_button->UseVisualStyleBackColor = true;
-			this->shuffle_button->Click += gcnew System::EventHandler(this, &ServerGUI::start_button_Click);
 			// 
 			// progressBar1
 			// 
 			this->progressBar1->Location = System::Drawing::Point(16, 140);
-			this->progressBar1->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->progressBar1->Margin = System::Windows::Forms::Padding(2);
 			this->progressBar1->Name = L"progressBar1";
 			this->progressBar1->Size = System::Drawing::Size(299, 19);
 			this->progressBar1->TabIndex = 18;
@@ -144,7 +143,7 @@ namespace CommAudio {
 			// 
 			this->songlist->FormattingEnabled = true;
 			this->songlist->Location = System::Drawing::Point(16, 196);
-			this->songlist->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->songlist->Margin = System::Windows::Forms::Padding(2);
 			this->songlist->Name = L"songlist";
 			this->songlist->Size = System::Drawing::Size(361, 147);
 			this->songlist->TabIndex = 17;
@@ -152,7 +151,7 @@ namespace CommAudio {
 			// fwd_button
 			// 
 			this->fwd_button->Location = System::Drawing::Point(259, 166);
-			this->fwd_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->fwd_button->Margin = System::Windows::Forms::Padding(2);
 			this->fwd_button->Name = L"fwd_button";
 			this->fwd_button->Size = System::Drawing::Size(56, 19);
 			this->fwd_button->TabIndex = 15;
@@ -162,7 +161,7 @@ namespace CommAudio {
 			// stop_button
 			// 
 			this->stop_button->Location = System::Drawing::Point(198, 166);
-			this->stop_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->stop_button->Margin = System::Windows::Forms::Padding(2);
 			this->stop_button->Name = L"stop_button";
 			this->stop_button->Size = System::Drawing::Size(56, 19);
 			this->stop_button->TabIndex = 14;
@@ -172,7 +171,7 @@ namespace CommAudio {
 			// pause_button
 			// 
 			this->pause_button->Location = System::Drawing::Point(137, 166);
-			this->pause_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->pause_button->Margin = System::Windows::Forms::Padding(2);
 			this->pause_button->Name = L"pause_button";
 			this->pause_button->Size = System::Drawing::Size(56, 19);
 			this->pause_button->TabIndex = 13;
@@ -182,7 +181,7 @@ namespace CommAudio {
 			// rew_button
 			// 
 			this->rew_button->Location = System::Drawing::Point(16, 166);
-			this->rew_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->rew_button->Margin = System::Windows::Forms::Padding(2);
 			this->rew_button->Name = L"rew_button";
 			this->rew_button->Size = System::Drawing::Size(56, 19);
 			this->rew_button->TabIndex = 12;
@@ -192,7 +191,7 @@ namespace CommAudio {
 			// play_button
 			// 
 			this->play_button->Location = System::Drawing::Point(76, 166);
-			this->play_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->play_button->Margin = System::Windows::Forms::Padding(2);
 			this->play_button->Name = L"play_button";
 			this->play_button->Size = System::Drawing::Size(56, 19);
 			this->play_button->TabIndex = 11;
@@ -204,7 +203,7 @@ namespace CommAudio {
 			// 
 			this->server_status_box->Enabled = false;
 			this->server_status_box->Location = System::Drawing::Point(16, 53);
-			this->server_status_box->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->server_status_box->Margin = System::Windows::Forms::Padding(2);
 			this->server_status_box->Multiline = true;
 			this->server_status_box->Name = L"server_status_box";
 			this->server_status_box->Size = System::Drawing::Size(300, 76);
@@ -223,17 +222,18 @@ namespace CommAudio {
 			// start_button
 			// 
 			this->start_button->Location = System::Drawing::Point(320, 31);
-			this->start_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->start_button->Margin = System::Windows::Forms::Padding(2);
 			this->start_button->Name = L"start_button";
 			this->start_button->Size = System::Drawing::Size(56, 19);
 			this->start_button->TabIndex = 22;
 			this->start_button->Text = L"start";
 			this->start_button->UseVisualStyleBackColor = true;
+			this->start_button->Click += gcnew System::EventHandler(this, &ServerGUI::start_button_Click_1);
 			// 
 			// openfile_button
 			// 
 			this->openfile_button->Location = System::Drawing::Point(320, 63);
-			this->openfile_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->openfile_button->Margin = System::Windows::Forms::Padding(2);
 			this->openfile_button->Name = L"openfile_button";
 			this->openfile_button->Size = System::Drawing::Size(56, 19);
 			this->openfile_button->TabIndex = 23;
@@ -260,7 +260,7 @@ namespace CommAudio {
 			this->Controls->Add(this->play_button);
 			this->Controls->Add(this->menuStrip1);
 			this->MainMenuStrip = this->menuStrip1;
-			this->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->Margin = System::Windows::Forms::Padding(2);
 			this->Name = L"ServerGUI";
 			this->Text = L"Comm Audio - Server";
 			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &ServerGUI::ServerGUI_FormClosing);
@@ -271,22 +271,6 @@ namespace CommAudio {
 
 		}
 #pragma endregion
-	private: System::Void start_button_Click(System::Object^  sender, System::EventArgs^  e) {
-				 DWORD waitThreadId;
-				 DWORD multicastThreadId;
-
-				 world = (World*)calloc(1, sizeof(World));
-
-				 world->clientOrServer = SERVER;
-				 world->sockSessn.portNumber = DEFAULT_SERVERPORT;
-				 
-				 strcpy_s(world->sockMulti.ip, "235.255.24.55"); 
-
-				 if (initWorld(world)) {
-					 CreateThread(0, 0, waitForConnections, (LPVOID)world, 0, &waitThreadId);
-					 //CreateThread(0, 0, sendMulticast, (LPVOID)world, 0, &multicastThreadId);
-				 }
-	}
 	private: System::Void play_button_Click(System::Object^  sender, System::EventArgs^  e) {
 				 HSTREAM streamHandle; // Handle for open stream
 
@@ -309,6 +293,22 @@ private: System::Void openfile_button_Click(System::Object^  sender, System::Eve
 }
 private: System::Void ServerGUI_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
 			 Application::Exit();
+		 }
+private: System::Void start_button_Click_1(System::Object^  sender, System::EventArgs^  e) {
+			 				 DWORD waitThreadId;
+				 DWORD multicastThreadId;
+
+				 world = (World*)calloc(1, sizeof(World));
+
+				 world->clientOrServer = SERVER;
+				 world->sockSessn.portNumber = DEFAULT_SERVERPORT;
+				 
+				 strcpy_s(world->sockMulti.ip, "235.255.24.55"); 
+
+				 if (initWorld(world)) {
+					 CreateThread(0, 0, waitForConnections, (LPVOID)world, 0, &waitThreadId);
+					 CreateThread(0, 0, sendMulticast, (LPVOID)world, 0, &multicastThreadId);
+				 }
 		 }
 };
 }
