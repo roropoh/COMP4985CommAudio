@@ -40,16 +40,13 @@ INT initClient(UnicastComponent* sockSessn)
 ----------------------------------------------------------------------------------------------------------------------*/
 DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid)
 {
-	ClientGUI clientGUI;
-
 	SocketInformation *si = (SocketInformation*)pVoid;
 	World *world = si->world;
 	String ^ text = "Hmm";
 	DWORD sentBytes = 0;
 	DWORD flags = 0;
 
-	clientGUI.UpdateClientStatus(text);
-
+	//UpdateClientStatus(text);
 
 	if (connect(world->sockSessn.workSock, (SOCKADDR*)&world->sockSessn.inAddr, world->sockSessn.inAddrLen) == SOCKET_ERROR) {
 		INT err = GetLastError();

@@ -37,5 +37,4 @@ void StartRecording();
 void StopRecording();
 BOOL InitDevice(int device);
 
-
 #endif
