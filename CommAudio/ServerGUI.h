@@ -281,7 +281,7 @@ namespace CommAudio {
 				 streamHandle = BASS_StreamCreateFile(FALSE, file_name, 0, 0, 0);
 				 BASS_ChannelGetData(streamHandle, media.buffer, PACKETSIZE);
 				 //BASS_ChannelPlay(streamHandle, FALSE);
-				 BASS_StreamPutData(streamHandle, media.buffer, PACKETSIZE);
+				 //BASS_StreamPutData(streamHandle, media.buffer, PACKETSIZE);
 	}
 	private: System::Void openfile_button_Click(System::Object^  sender, System::EventArgs^  e) {
 				 OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;

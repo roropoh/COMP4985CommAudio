@@ -1,4 +1,9 @@
 #include "Master.h"
+#include "MyForm.h"
+#include "ClientGUI.h"
+
+using namespace std;
+using namespace CommAudio;
 
 void CALLBACK doRetrieveSessionWork(DWORD error, DWORD bytesTransferred, LPWSAOVERLAPPED overlapped, DWORD inFlags);
 
@@ -6,7 +11,7 @@ void CALLBACK doRetrieveSessionWork(DWORD error, DWORD bytesTransferred, LPWSAOV
 INT initClient(UnicastComponent* sockSessn)
 {
 	// TCP
-	if(createSendSocket(sockSessn) == 0) {
+	if (createSendSocket(sockSessn) == 0) {
 		// put error handling code here
 		return 0;
 	}
@@ -35,27 +40,32 @@ INT initClient(UnicastComponent* sockSessn)
 ----------------------------------------------------------------------------------------------------------------------*/
 DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid)
 {
+	ClientGUI clientGUI;
+
 	SocketInformation *si = (SocketInformation*)pVoid;
 	World *world = si->world;
+	String ^ text = "Hmm";
+	DWORD sentBytes = 0;
+	DWORD flags = 0;
 
-	DWORD sentBytes	= 0;
-	DWORD flags			= 0;
-	
-	if(connect(world->sockSessn.workSock, (SOCKADDR*)&world->sockSessn.inAddr, world->sockSessn.inAddrLen) == SOCKET_ERROR) {
+	clientGUI.UpdateClientStatus(text);
+
+
+	if (connect(world->sockSessn.workSock, (SOCKADDR*)&world->sockSessn.inAddr, world->sockSessn.inAddrLen) == SOCKET_ERROR) {
 		INT err = GetLastError();
 		return FALSE;
 	}
 
-	while(TRUE) {
-		if(WSARecv(world->sockSessn.workSock, (LPWSABUF)world->buffs.dataBuf, 1, &sentBytes, &flags, &si->overlapped, doRetrieveSessionWork) == SOCKET_ERROR) {
-			if(GetLastError() != WSA_IO_PENDING) {
+	while (TRUE) {
+		if (WSARecv(world->sockSessn.workSock, (LPWSABUF)world->buffs.dataBuf, 1, &sentBytes, &flags, &si->overlapped, doRetrieveSessionWork) == SOCKET_ERROR) {
+			if (GetLastError() != WSA_IO_PENDING) {
 				//closeRecvEverything(&sinf, "Socket error");
 				int err = GetLastError();
 				return FALSE;
 			}
 		}
 
-		if(waitForWSAEventToComplete(&world->sockSessn.wsaEvent) == FALSE)
+		if (waitForWSAEventToComplete(&world->sockSessn.wsaEvent) == FALSE)
 			return FALSE;
 
 		//break;
@@ -84,7 +94,7 @@ DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid)
 --								DWORD bytesTransferred: bytesTransferred during last send.
 --								LPWSOVERLAPPED overlapped: the overlapped struct for during last send
 --								DWORD inFlags: flags used for last send
---								
+--
 -- RETURNS:		void
 --
 -- NOTES:
@@ -92,19 +102,18 @@ DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid)
 ----------------------------------------------------------------------------------------------------------------------*/
 void CALLBACK doRetrieveSessionWork(DWORD error, DWORD bytesTransferred, LPWSAOVERLAPPED overlapped, DWORD inFlags)
 {
-	SocketInformation *si = (SocketInformation*) overlapped;
+	SocketInformation *si = (SocketInformation*)overlapped;
 
 	DWORD recvBytes = 0;
-	DWORD flags			= 0;
+	DWORD flags = 0;
 
 
-	if( error != 0 || bytesTransferred == 0 ) {
+	if (error != 0 || bytesTransferred == 0) {
 		// close everything
 		return;
 	}
-	
+
 	strcpy_s(si->world->sockMulti.ip, MAXBUFLEN, si->world->buffs.buffer);
 
 	CreateThread(0, 0, recvMulticast, (LPVOID)si, 0, 0);
 }
-

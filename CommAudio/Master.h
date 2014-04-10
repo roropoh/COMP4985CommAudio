@@ -31,4 +31,11 @@ INT initServer(UnicastComponent* sockSessn);
 DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid);
 INT initClient(UnicastComponent* sockSessn);
 
+// ClientGUI.cpp
+BOOL CALLBACK RecordingCallback(HRECORD handle, const void *buffer, DWORD length, void *user);
+void StartRecording();
+void StopRecording();
+BOOL InitDevice(int device);
+
+
 #endif
