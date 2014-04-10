@@ -19,6 +19,5 @@ typedef struct {
 	WSAEVENT	 * wsaEvent;
 	SOCKADDR_IN* dstAddr;
 	INT		     dstAddrLen;
-	MulticastComponent *sockMulti;
 } MulticastSocketInformation;
 #endif
