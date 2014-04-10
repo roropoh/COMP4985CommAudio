@@ -34,14 +34,14 @@ DWORD WINAPI sendMulticast(LPVOID pVoid)
 	while (TRUE) {
 
 		if (WSASendTo((msi.workSock), msi.dataBuf, 1, &sentBytes, flags, (SOCKADDR*)dstAddr, len, &msi.overlapped, doSendMulticastWork) == SOCKET_ERROR)
-		if (GetLastError() != WSA_IO_PENDING) {
-			//closeSendEverything(&sinf, "Socket error");
-			int err = GetLastError();
-			return FALSE;
-		}
+			if (GetLastError() != WSA_IO_PENDING) {
+				//closeSendEverything(&sinf, "Socket error");
+				int err = GetLastError();
+				return FALSE;
+			}
 
-		if (waitForWSAEventToComplete(msi.wsaEvent) == FALSE)
-			return FALSE;
+			if (waitForWSAEventToComplete(msi.wsaEvent) == FALSE)
+				return FALSE;
 	}
 
 	// close everything
@@ -61,7 +61,7 @@ void CALLBACK doSendMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 	sprintf(msi->buffer, "%d. HOHO THIS IS A PACKET", i);
 	//si -> bytesSent += bytesTransferred;
 
-	Sleep(1000);
+	Sleep(2000);
 
 	if (error != 0 || bytesTransferred == 0)
 	{
@@ -116,7 +116,7 @@ VOID CALLBACK doRecvMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 {
 	SocketInformation *si = (SocketInformation*)overlapped;
 	World *world = si->world;
-	
+
 	DWORD recvBytes = 0;
 	DWORD flags = 0;
 

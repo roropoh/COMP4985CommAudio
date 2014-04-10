@@ -11,7 +11,6 @@ typedef struct {
 	SOCKADDR_IN dstAddr;
 	IP_MREQ			ipMreq;
 	ULONG				TTL;
-	//USHORT			Interval;
 	INT					dstAddrLen;
 	INT					lclAddrLen;
 	INT					portNumber;
