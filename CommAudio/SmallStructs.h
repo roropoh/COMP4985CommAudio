@@ -9,6 +9,7 @@ typedef struct {
 	CHAR			 * buffer;
 	WSABUF		 * dataBuf;
 	WSAEVENT	 * wsaEvent;
+	World * world;
 } SocketInformation;
 
 typedef struct {
@@ -19,6 +20,5 @@ typedef struct {
 	WSAEVENT	 * wsaEvent;
 	SOCKADDR_IN* dstAddr;
 	INT		     dstAddrLen;
-	MulticastComponent *sockMulti;
 } MulticastSocketInformation;
 #endif

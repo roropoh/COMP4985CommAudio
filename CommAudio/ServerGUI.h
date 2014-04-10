@@ -100,7 +100,7 @@ namespace CommAudio {
 			// 
 			// menuStrip1
 			// 
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->fileToolStripMenuItem});
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->fileToolStripMenuItem });
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
 			this->menuStrip1->Padding = System::Windows::Forms::Padding(4, 2, 0, 2);
@@ -110,7 +110,7 @@ namespace CommAudio {
 			// 
 			// fileToolStripMenuItem
 			// 
-			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->exitToolStripMenuItem});
+			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->exitToolStripMenuItem });
 			this->fileToolStripMenuItem->Name = L"fileToolStripMenuItem";
 			this->fileToolStripMenuItem->Size = System::Drawing::Size(37, 20);
 			this->fileToolStripMenuItem->Text = L"File";
@@ -274,7 +274,6 @@ namespace CommAudio {
 	private: System::Void play_button_Click(System::Object^  sender, System::EventArgs^  e) {
 				 HSTREAM streamHandle; // Handle for open stream
 				 MediaComponent media;
-
 				 // Initialize BASS with default sound device and 44100Hz Sample rate
 				 BASS_Init(-1, 44100, 0, 0, NULL);
 
@@ -284,37 +283,37 @@ namespace CommAudio {
 				 //BASS_ChannelPlay(streamHandle, FALSE);
 				 BASS_StreamPutData(streamHandle, media.buffer, PACKETSIZE);
 	}
-private: System::Void openfile_button_Click(System::Object^  sender, System::EventArgs^  e) {
-			 OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
-			 openFileDialog1->Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-			 openFileDialog1->FilterIndex = 2;
-			 openFileDialog1->RestoreDirectory = true;
+	private: System::Void openfile_button_Click(System::Object^  sender, System::EventArgs^  e) {
+				 OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
+				 openFileDialog1->Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+				 openFileDialog1->FilterIndex = 2;
+				 openFileDialog1->RestoreDirectory = true;
 
-			 if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK){
-				 file_name = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(openFileDialog1->FileName);
-				 
-				 //file_name_string = gcnew System::String(file_name);
-				 songlist->Items->Add(openFileDialog1->SafeFileName);
-			 }
-}
-private: System::Void ServerGUI_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
-			 Application::Exit();
-		 }
-private: System::Void start_button_Click_1(System::Object^  sender, System::EventArgs^  e) {
-			 				 DWORD waitThreadId;
+				 if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK){
+					 file_name = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(openFileDialog1->FileName);
+
+					 //file_name_string = gcnew System::String(file_name);
+					 songlist->Items->Add(openFileDialog1->SafeFileName);
+				 }
+	}
+	private: System::Void ServerGUI_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
+				 Application::Exit();
+	}
+	private: System::Void start_button_Click_1(System::Object^  sender, System::EventArgs^  e) {
+				 DWORD waitThreadId;
 				 DWORD multicastThreadId;
 
 				 world = (World*)calloc(1, sizeof(World));
 
 				 world->clientOrServer = SERVER;
 				 world->sockSessn.portNumber = DEFAULT_SERVERPORT;
-				 
-				 strcpy_s(world->sockMulti.ip, "235.255.24.55"); 
+
+				 strcpy_s(world->sockMulti.ip, "235.100.24.55");
 
 				 if (initWorld(world)) {
 					 CreateThread(0, 0, waitForConnections, (LPVOID)world, 0, &waitThreadId);
 					 CreateThread(0, 0, sendMulticast, (LPVOID)world, 0, &multicastThreadId);
 				 }
-		 }
-};
+	}
+	};
 }
