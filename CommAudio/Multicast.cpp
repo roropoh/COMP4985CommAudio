@@ -24,11 +24,17 @@ DWORD WINAPI sendMulticast(LPVOID pVoid)
 	msi.workSock = world->sockMulti.workSock;
 	msi.dstAddr = dstAddr;
 	msi.dstAddrLen = len;
+	msi.streamHandle = initBass(msi.fileName);
+	strcpy(msi.fileName, world->media.fileName);
 
 	DWORD sentBytes = 0;
 	DWORD flags = 0;
 
-	strcpy(msi.buffer, "0. HOHO This is a packet 1024 bits long.");
+
+	FLOAT packet[MAXBUFLEN];
+	ripSongPacket(packet, msi.streamHandle);
+	strcpy(msi.buffer, (CHAR*)packet);
+
 
 	while (TRUE) {
 
@@ -56,11 +62,8 @@ void CALLBACK doSendMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 	DWORD sentBytes = 0;
 	DWORD flags = 0;
 
-	int i = 0;
-	sprintf(msi->buffer, "%d. HOHO THIS IS A PACKET", i);
+	FLOAT packet[MAXBUFLEN];
 	//si -> bytesSent += bytesTransferred;
-
-	Sleep(2000);
 
 	if (error != 0 || bytesTransferred == 0)
 	{
@@ -68,6 +71,8 @@ void CALLBACK doSendMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 		return;
 	}
 
+	ripSongPacket(packet, msi->streamHandle);
+	strcpy(msi->buffer, (CHAR*)packet);
 
 	if (WSASendTo((msi->workSock), msi->dataBuf, 1, &sentBytes, flags, (SOCKADDR*)msi->dstAddr, msi->dstAddrLen, &msi->overlapped, doSendMulticastWork) == SOCKET_ERROR)	{
 		if (GetLastError() != WSA_IO_PENDING)

@@ -17,17 +17,13 @@ namespace CommAudio {
 	public ref class ServerGUI : public System::Windows::Forms::Form
 	{
 	public:
-		char* file_name;
+		CHAR* fileName;
 
 		ServerGUI(void)
 		{
 			InitializeComponent();
 
 			initWSA();
-
-			//
-			//TODO: Add the constructor code here
-			//
 		}
 
 	protected:
@@ -44,6 +40,7 @@ namespace CommAudio {
 		}
 
 	private: World* world;
+	private: HSTREAM streamHandle;
 
 	private: System::Windows::Forms::MenuStrip^  menuStrip1;
 	protected:
@@ -272,17 +269,13 @@ namespace CommAudio {
 		}
 #pragma endregion
 	private: System::Void play_button_Click(System::Object^  sender, System::EventArgs^  e) {
-				 HSTREAM streamHandle; // Handle for open stream
-				 MediaComponent media;
-				 // Initialize BASS with default sound device and 44100Hz Sample rate
-				 BASS_Init(-1, 44100, 0, 0, NULL);
 
-				 // Load your soundfile and play it
-				 streamHandle = BASS_StreamCreateFile(FALSE, file_name, 0, 0, 0);
-				 BASS_ChannelGetData(streamHandle, media.buffer, PACKETSIZE);
-				 //BASS_ChannelPlay(streamHandle, FALSE);
-				 BASS_StreamPutData(streamHandle, media.buffer, PACKETSIZE);
+				 FLOAT* packet = (FLOAT*)calloc(PACKETSIZE, sizeof(FLOAT));
+
+				 streamHandle = initBass(fileName);
+				 ripSongPacket(packet, streamHandle);
 	}
+
 	private: System::Void openfile_button_Click(System::Object^  sender, System::EventArgs^  e) {
 				 OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
 				 openFileDialog1->Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -290,9 +283,9 @@ namespace CommAudio {
 				 openFileDialog1->RestoreDirectory = true;
 
 				 if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK){
-					 file_name = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(openFileDialog1->FileName);
+					 fileName = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(openFileDialog1->FileName);
 
-					 //file_name_string = gcnew System::String(file_name);
+					 //fileName_string = gcnew System::String(fileName);
 					 songlist->Items->Add(openFileDialog1->SafeFileName);
 				 }
 	}
@@ -304,6 +297,8 @@ namespace CommAudio {
 				 DWORD multicastThreadId;
 
 				 world = (World*)calloc(1, sizeof(World));
+
+				 strcpy_s(world->media.fileName, MAXBUFLEN, fileName);
 
 				 world->clientOrServer = SERVER;
 				 world->sockSessn.portNumber = DEFAULT_SERVERPORT;

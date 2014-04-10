@@ -1,6 +1,8 @@
 #ifndef SMALLSTRUCTS_H
 #define SMALLSTRUCTS_H
 
+
+#include "bass.h"
 #include "Master.h"
 
 typedef struct {
@@ -20,5 +22,7 @@ typedef struct {
 	WSAEVENT	 * wsaEvent;
 	SOCKADDR_IN* dstAddr;
 	INT		     dstAddrLen;
+	CHAR fileName[MAXBUFLEN];
+	HSTREAM streamHandle;
 } MulticastSocketInformation;
 #endif

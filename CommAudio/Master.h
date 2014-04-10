@@ -3,7 +3,6 @@
 
 #include "Components.h"
 #include "SmallStructs.h"
-#include "bass.h"
 
 // Shared.cpp
 void initWSA();
@@ -30,5 +29,10 @@ INT initServer(UnicastComponent* sockSessn);
 // ClientSession.cpp
 DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid);
 INT initClient(UnicastComponent* sockSessn);
+
+
+//Media.cpp
+HSTREAM initBass(CHAR* fileName);
+VOID ripSongPacket(FLOAT* packet, HSTREAM streamHandle);
 
 #endif

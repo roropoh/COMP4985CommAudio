@@ -48,7 +48,7 @@ typedef struct {
 
 
 typedef struct {
-	CHAR* buffer;
+	CHAR fileName[MAXBUFLEN];
 } MediaComponent;
 
 
@@ -57,7 +57,7 @@ typedef struct {
 	MulticastComponent sockMulti;
 	BuffersComponent	 buffs;
 	//StatsComponent	 stats;
-	//MediaComponent	 media;
+	MediaComponent	 media;
 	INT clientOrServer;
 } World;
 
