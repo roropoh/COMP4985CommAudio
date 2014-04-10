@@ -41,7 +41,7 @@ namespace CommAudio {
 			}
 		}
 
-	private: World* world;
+	private: SocketInformation *si;
 
 	private: System::Windows::Forms::Button^  play_button;
 	protected:
@@ -375,17 +375,15 @@ private: System::Void connect_button_Click(System::Object^  sender, System::Even
 			 textbox_portnumber_string	= (PCHAR)(PVOID)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_portnumber->Text);
 			 textbox_portnumber_int			= atoi(textbox_portnumber_string);
 	
+			 si = (SocketInformation*)calloc(1, sizeof(SocketInformation));
+			 si->world = (World*)calloc(1, sizeof(World));
 
-			 world = (World*)calloc(1, sizeof(World));
+			 strcpy_s(si->world->sockSessn.ip, MAXBUFLEN, textbox_ip_string);
+			 si->world->sockSessn.portNumber = textbox_portnumber_int;
+			 si->world->clientOrServer = CLIENT;
 
-
-
-			 strcpy_s(world->sockSessn.ip, MAXBUFLEN, textbox_ip_string);
-
-			 world->sockSessn.portNumber = textbox_portnumber_int;
-			 world->clientOrServer       = CLIENT;
-			if(initWorld(world)) {
-				CreateThread(0, 0, retrieveSessionFromServer, (LPVOID)world, 0, &connectThreadId);
+			if(initWorld(si->world)) {
+				CreateThread(0, 0, retrieveSessionFromServer, (LPVOID)si, 0, &connectThreadId);
 			}
 	}
 	private: System::Void ClientGUI_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {

@@ -9,6 +9,7 @@ typedef struct {
 	CHAR			 * buffer;
 	WSABUF		 * dataBuf;
 	WSAEVENT	 * wsaEvent;
+	World * world;
 } SocketInformation;
 
 typedef struct {

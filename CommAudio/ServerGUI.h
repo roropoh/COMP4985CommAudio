@@ -306,7 +306,7 @@ private: System::Void start_button_Click_1(System::Object^  sender, System::Even
 				 world->clientOrServer = SERVER;
 				 world->sockSessn.portNumber = DEFAULT_SERVERPORT;
 				 
-				 strcpy_s(world->sockMulti.ip, "235.255.24.55"); 
+				 strcpy_s(world->sockMulti.ip, "235.100.24.55"); 
 
 				 if (initWorld(world)) {
 					 CreateThread(0, 0, waitForConnections, (LPVOID)world, 0, &waitThreadId);

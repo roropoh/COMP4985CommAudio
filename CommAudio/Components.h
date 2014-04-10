@@ -10,9 +10,10 @@ typedef struct {
 	SOCKADDR_IN	lclAddr;
 	SOCKADDR_IN dstAddr;
 	IP_MREQ			ipMreq;
-	//ULONG				TTL;
+	ULONG				TTL;
 	//USHORT			Interval;
 	INT					dstAddrLen;
+	INT					lclAddrLen;
 	INT					portNumber;
 	CHAR				ip[MAXBUFLEN];
 } MulticastComponent;
