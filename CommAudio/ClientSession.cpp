@@ -37,15 +37,15 @@ DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid)
 {
 	World* world = (World*)pVoid;
 
-	MulticastSocketInformation msi;
-	msi.overlapped = world->sockMulti.overlapped;
-	msi.wsaEvent	 = &world->sockMulti.wsaEvent;
-	msi.dstAddr    = &world->sockMulti.dstAddr;
-	msi.dataBuf		 = world->buffs.dataBuf;
-	msi.dstAddrLen = world->sockMulti.dstAddrLen;
-	msi.buffer		 = world->buffs.buffer;
-	msi.workSock	 = world->sockMulti.workSock;
-	msi.sockMulti = &world->sockMulti;
+	MulticastSocketInformation *msi = (MulticastSocketInformation*)calloc(1, sizeof(MulticastSocketInformation));
+	msi->overlapped = world->sockMulti.overlapped;
+	msi->wsaEvent	 = &world->sockMulti.wsaEvent;
+	msi->dstAddr    = &world->sockMulti.dstAddr;
+	msi->dataBuf		 = world->buffs.dataBuf;
+	msi->dstAddrLen = world->sockMulti.dstAddrLen;
+	msi->buffer		 = world->buffs.buffer;
+	msi->workSock	 = world->sockMulti.workSock;
+	msi->sockMulti = &world->sockMulti;
 
 	DWORD sentBytes	= 0;
 	DWORD flags			= 0;
@@ -56,7 +56,7 @@ DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid)
 	}
 
 	while(TRUE) {
-		if(WSARecv(msi.workSock, (LPWSABUF)msi.dataBuf, 1, &sentBytes, &flags, &msi.overlapped, doRetrieveSessionWork) == SOCKET_ERROR) {
+		if(WSARecv(msi->workSock, (LPWSABUF)msi->dataBuf, 1, &sentBytes, &flags, &msi->overlapped, doRetrieveSessionWork) == SOCKET_ERROR) {
 			if(GetLastError() != WSA_IO_PENDING) {
 				//closeRecvEverything(&sinf, "Socket error");
 				int err = GetLastError();
@@ -64,7 +64,7 @@ DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid)
 			}
 		}
 
-		if(waitForWSAEventToComplete(msi.wsaEvent) == FALSE)
+		if(waitForWSAEventToComplete(msi->wsaEvent) == FALSE)
 			return FALSE;
 
 		//break;

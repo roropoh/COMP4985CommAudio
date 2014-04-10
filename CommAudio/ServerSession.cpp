@@ -147,13 +147,13 @@ VOID CALLBACK doSendSessionWork(DWORD error, DWORD bytesTransferred, LPWSAOVERLA
 		return;
 	}
 
-	//if(WSASend(si->workSock, (LPWSABUF)si->dataBuf, 1, &sentBytes, flags, &si->overlapped, doSendSessionWork) == SOCKET_ERROR) {
-	//	if(GetLastError() != WSA_IO_PENDING) {
-	//		int err = GetLastError();
-	//		//closeSendEverything(&sinf, "Socket error");
-	//		return;
-	//	}
-	//}
+	if(WSASend(si->workSock, (LPWSABUF)si->dataBuf, 1, &sentBytes, flags, &si->overlapped, doSendSessionWork) == SOCKET_ERROR) {
+		if(GetLastError() != WSA_IO_PENDING) {
+			int err = GetLastError();
+			//closeSendEverything(&sinf, "Socket error");
+			return;
+		}
+	}
 }
 
 VOID packetizeAudioData(World *world){
