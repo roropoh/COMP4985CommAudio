@@ -48,7 +48,7 @@ typedef struct {
 
 
 typedef struct {
-
+	CHAR* buffer;
 } MediaComponent;
 
 

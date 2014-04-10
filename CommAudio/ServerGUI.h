@@ -273,13 +273,16 @@ namespace CommAudio {
 #pragma endregion
 	private: System::Void play_button_Click(System::Object^  sender, System::EventArgs^  e) {
 				 HSTREAM streamHandle; // Handle for open stream
+				 MediaComponent media;
 
 				 // Initialize BASS with default sound device and 44100Hz Sample rate
 				 BASS_Init(-1, 44100, 0, 0, NULL);
 
 				 // Load your soundfile and play it
 				 streamHandle = BASS_StreamCreateFile(FALSE, file_name, 0, 0, 0);
-				 BASS_ChannelPlay(streamHandle, FALSE);
+				 BASS_ChannelGetData(streamHandle, media.buffer, PACKETSIZE);
+				 //BASS_ChannelPlay(streamHandle, FALSE);
+				 BASS_StreamPutData(streamHandle, media.buffer, PACKETSIZE);
 	}
 private: System::Void openfile_button_Click(System::Object^  sender, System::EventArgs^  e) {
 			 OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;

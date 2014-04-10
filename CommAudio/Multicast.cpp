@@ -1,6 +1,5 @@
 #include "Master.h"
 
-
 #include <stdio.h>
 
 
