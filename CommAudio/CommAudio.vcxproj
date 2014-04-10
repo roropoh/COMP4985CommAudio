@@ -20,7 +20,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -44,6 +44,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>C:\Users\pc1\Documents\GitHub\COMP4985CommAudio\CommAudio\bass\c;E:\Dropbox\2014 BCIT Winter\COMP 4985 DataComm Option\Assignment 4 %28Final Project%29\COMP4985CommAudio\CommAudio\bass\c;C:\Users\Tim\Source\Repos\COMP4985CommAudio\CommAudio\bass\c;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\Dropbox\2014 BCIT Winter\COMP 4985 DataComm Option\Assignment 4 %28Final Project%29\COMP4985CommAudio\CommAudio\bass\c;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

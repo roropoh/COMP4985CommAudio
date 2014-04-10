@@ -3,7 +3,13 @@
 
 #include "Components.h"
 #include "SmallStructs.h"
-#include "bass.h"
+#include <bass.h>
+	
+#define FREQ 44100
+#define CHANS 2
+#define BUFSTEP 200000	// memory allocation unit
+
+
 
 // Shared.cpp
 void initWSA();
