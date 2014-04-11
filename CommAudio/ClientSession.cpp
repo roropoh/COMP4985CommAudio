@@ -42,8 +42,12 @@ DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid)
 {
 	SocketInformation *si = (SocketInformation*)pVoid;
 	World *world = si->world;
-	String ^ text = "Hmm";
-	DWORD sentBytes = 0;
+
+	si->dataBuf = world->buffs.dataBuf;
+	si->workSock = world->sockSessn.workSock;
+	si->wsaEvent = &world->sockSessn.wsaEvent;
+
+	DWORD recvBytes = 0;
 	DWORD flags = 0;
 
 	//UpdateClientStatus(text);
@@ -54,7 +58,7 @@ DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid)
 	}
 
 	while (TRUE) {
-		if (WSARecv(world->sockSessn.workSock, (LPWSABUF)world->buffs.dataBuf, 1, &sentBytes, &flags, &si->overlapped, doRetrieveSessionWork) == SOCKET_ERROR) {
+		if (WSARecv(si->workSock, (LPWSABUF)si->dataBuf, 1, &recvBytes, &flags, &si->overlapped, doRetrieveSessionWork) == SOCKET_ERROR) {
 			if (GetLastError() != WSA_IO_PENDING) {
 				//closeRecvEverything(&sinf, "Socket error");
 				int err = GetLastError();
