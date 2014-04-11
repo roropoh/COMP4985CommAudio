@@ -1,53 +1,31 @@
 #include "Master.h"
 
-HSTREAM initBass()
+INT initBass(HSTREAM *stream)
 {
-	HSTREAM streamHandle;
-
-	// Initialize BASS with default sound device and 44100Hz Sample rate
 	BASS_Init(-1, 44100, 0, 0, NULL);
+	(*stream) = BASS_StreamCreate(44100, 2, 0, STREAMPROC_PUSH, 0);
 
-	streamHandle = BASS_StreamCreate(44100, 2, 0, STREAMPROC_PUSH, 0);
-
-	return streamHandle;
+	return BASS_ErrorGetCode();
 }
 
-HSTREAM initBass(CHAR* fileName)
+INT initBass(HSTREAM *stream, CHAR *fileName) 
 {
-	HSTREAM streamHandle; // Handle for open stream
-
-	// Initialize BASS with default sound device and 44100Hz Sample rate
 	BASS_Init(-1, 44100, 0, 0, NULL);
-
-	// Load your soundfile and play it
-	streamHandle = BASS_StreamCreateFile(FALSE, "C:\\Users\\pc1\\Documents\\GitHub\\COMP4985CommAudio\\CommAudio\\ladyGaga.mp3", 0, 0, BASS_SAMPLE_LOOP | BASS_STREAM_DECODE);
-
-	return streamHandle;
+	(*stream) = BASS_StreamCreateFile(FALSE, fileName, 0, 0, BASS_SAMPLE_LOOP | BASS_STREAM_DECODE);
+	return BASS_ErrorGetCode();
 }
 
 
-BOOL ripSongPacket(CHAR* packet, HSTREAM streamHandle)
+INT ripSongPacket(HSTREAM *stream, CHAR *packet)
 {
-
-	BASS_ChannelGetData(streamHandle, packet, PACKETSIZE);
-	//BASS_StreamPutData(streamHandle, packet, PACKETSIZE);
-
-	return TRUE;
+	BASS_ChannelGetData(*stream, packet, PACKETSIZE);
+	return BASS_ErrorGetCode();
 }
 
-BOOL playSongPacket(CHAR* packet, HSTREAM streamHandle)
+INT playSongPacket(HSTREAM *stream, CHAR* packet)
 {
-	BASS_StreamPutData(streamHandle, packet, PACKETSIZE);	
-	BASS_ChannelPlay(streamHandle, FALSE);
-
-	return TRUE;
-}
-
-DWORD WINAPI play(LPVOID pVoid) {
-
-	HSTREAM *stream = (HSTREAM*)pVoid;
-
-	BASS_ChannelPlay(*stream, FALSE);
-	int er = BASS_ErrorGetCode();
-	return false;
+	INT error;
+	error = BASS_StreamPutData(*stream, packet, PACKETSIZE);	
+	error = BASS_ChannelPlay(*stream, FALSE);
+	return BASS_ErrorGetCode();
 }

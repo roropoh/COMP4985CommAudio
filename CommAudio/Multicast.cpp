@@ -20,36 +20,30 @@ DWORD WINAPI sendMulticast(LPVOID pVoid)
 	MulticastSocketInformation msi;
 	msi.overlapped = world->sockMulti.overlapped;
 	msi.wsaEvent = &world->sockMulti.wsaEvent;
-	msi.dataBuf = world->buffs.dataBuf;
-	msi.buffer = world->buffs.buffer;
 	msi.workSock = world->sockMulti.workSock;
 	msi.dstAddr = dstAddr;
 	msi.dstAddrLen = len;
-	msi.streamHandle = initBass(msi.fileName);
+	
 	strcpy(msi.fileName, world->media.fileName);
+
+
+	int error = initBass(&msi.streamHandle, "C:\\Users\\pc1\\Documents\\GitHub\\COMP4985CommAudio\\CommAudio\\ladygaga.mp3");
 
 	DWORD sentBytes = 0;
 	DWORD flags = 0;
-
-	//WSABUF *dataBuf = (WSABUF*)calloc(1, sizeof(WSABUF));
-
-
-	BASS_Init(-1, 44100, 0, 0, NULL);
-	stream = BASS_StreamCreateFile(FALSE, "C:\\Users\\pc1\\Documents\\GitHub\\COMP4985CommAudio\\CommAudio\\ladygaga.mp3", 0, 0, BASS_STREAM_DECODE);
-	int e = BASS_ErrorGetCode();
 
 	CHAR *buf = (CHAR*)calloc(PACKETSIZE, sizeof(CHAR));
 	dataBuf.buf = buf;
 	dataBuf.len = PACKETSIZE;
 
 
-	BASS_ChannelGetData(stream, dataBuf.buf, PACKETSIZE);
-	e = BASS_ErrorGetCode();
+	BASS_ChannelGetData(msi.streamHandle, dataBuf.buf, PACKETSIZE);
+	error = BASS_ErrorGetCode();
 
 
 	while (TRUE) {
 
-		if (WSASendTo((msi.workSock), msi.dataBuf, 1, &sentBytes, flags, (SOCKADDR*)dstAddr, len, &msi.overlapped, doSendMulticastWork) == SOCKET_ERROR)
+		if (WSASendTo((msi.workSock), &dataBuf, 1, &sentBytes, flags, (SOCKADDR*)dstAddr, len, &msi.overlapped, doSendMulticastWork) == SOCKET_ERROR)
 			if (GetLastError() != WSA_IO_PENDING) {
 				//closeSendEverything(&sinf, "Socket error");
 				int err = GetLastError();
@@ -82,8 +76,8 @@ void CALLBACK doSendMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 		return;
 	}
 
-	BASS_ChannelGetData(stream, dataBuf.buf, PACKETSIZE);
-	int er = BASS_ErrorGetCode();
+	BASS_ChannelGetData(msi->streamHandle, dataBuf.buf, PACKETSIZE);
+	int err = BASS_ErrorGetCode();
 
 	if (WSASendTo((msi->workSock), &dataBuf, 1, &sentBytes, flags, (SOCKADDR*)msi->dstAddr, msi->dstAddrLen, &msi->overlapped, doSendMulticastWork) == SOCKET_ERROR)	{
 		if (GetLastError() != WSA_IO_PENDING)
@@ -98,13 +92,11 @@ void CALLBACK doSendMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 
 
 
-DWORD WINAPI recvMulticast(LPVOID pVoid) {
-
-	SocketInformation *si = (SocketInformation*)pVoid;
-	World *world = si->world;
+DWORD WINAPI recvMulticast(LPVOID pVoid) 
+{
+	SocketInformation* si = (SocketInformation*)pVoid;
+	World* world = si->world;
 	
-	si->streamHandle = initBass();
-
 	DWORD recvBytes = 0;
 	DWORD flags = 0;
 	
@@ -115,11 +107,9 @@ DWORD WINAPI recvMulticast(LPVOID pVoid) {
 	if (!initMulticastComponent(&world->sockMulti, createClientBoundMulticastSocket))
 		return FALSE;
 
-	BASS_Init(-1, 44100, 0, 0, NULL);
-	int er = BASS_ErrorGetCode();
 
-	stream = BASS_StreamCreate(44100, 2, 0, STREAMPROC_PUSH, 0);
-	er = BASS_ErrorGetCode();
+	int error = initBass(&stream);
+
 
 	while (TRUE)
 	{
@@ -127,7 +117,7 @@ DWORD WINAPI recvMulticast(LPVOID pVoid) {
 		{
 			if (GetLastError() != WSA_IO_PENDING)
 			{
-				int err = GetLastError();//closeRecvEverything(&sinf, "Socket error");
+				int error = GetLastError();//closeRecvEverything(&sinf, "Socket error");
 				return FALSE;
 			}
 		}
@@ -154,11 +144,7 @@ VOID CALLBACK doRecvMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 		return;
 	}
 
-	BASS_StreamPutData(stream, dataBuf.buf, PACKETSIZE);	
-	int er = BASS_ErrorGetCode();
-
-	BASS_ChannelPlay(stream, FALSE);
-	er = BASS_ErrorGetCode();
+	int err = playSongPacket(&stream, dataBuf.buf);
 
 	if (WSARecvFrom(world->sockMulti.workSock, &dataBuf, 1, &recvBytes, &flags, (SOCKADDR*)&world->sockMulti.lclAddr, &world->sockMulti.lclAddrLen, &si->overlapped, doRecvMulticastWork) == SOCKET_ERROR)
 	{

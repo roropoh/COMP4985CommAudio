@@ -270,12 +270,12 @@ namespace CommAudio {
 #pragma endregion
 	private: System::Void play_button_Click(System::Object^  sender, System::EventArgs^  e) {
 
-				 CHAR* packet = (CHAR*)calloc(PACKETSIZE, sizeof(CHAR));
+				 //CHAR* packet = (CHAR*)calloc(PACKETSIZE, sizeof(CHAR));
 
-				 streamHandle = initBass(fileName);
+				 //initBass(&streamHandle, fileName);
 
-				 BASS_StreamPutData(streamHandle, packet, PACKETSIZE);	
-				 BASS_ChannelPlay(streamHandle, FALSE);
+				 //BASS_StreamPutData(streamHandle, packet, PACKETSIZE);	
+				 //BASS_ChannelPlay(streamHandle, FALSE);
 	}
 
 	private: void openFile() {
