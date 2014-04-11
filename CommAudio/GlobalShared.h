@@ -3,6 +3,9 @@
 
 #define MAXBUFLEN 1024
 #define PACKETSIZE 1024
+#define FREQ 44100
+#define BUFSTEP 200000
+#define CHANS 2
 
 #define DEFAULT_SERVERPORT 7000
 

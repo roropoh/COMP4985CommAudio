@@ -17,7 +17,6 @@ namespace CommAudio {
 	public ref class ServerGUI : public System::Windows::Forms::Form
 	{
 	public:
-		CHAR* fileName;
 
 		ServerGUI(void)
 		{
@@ -41,6 +40,7 @@ namespace CommAudio {
 
 	private: World* world;
 	private: HSTREAM streamHandle;
+	private: CHAR* fileName;
 
 	private: System::Windows::Forms::MenuStrip^  menuStrip1;
 	protected:

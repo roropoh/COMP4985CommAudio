@@ -44,6 +44,7 @@ typedef struct {
 	INT		lastTimestamp;
 	INT		numPackets;
 	DWORD packetSize;
+	BOOL connected;
 } StatsComponent;
 
 

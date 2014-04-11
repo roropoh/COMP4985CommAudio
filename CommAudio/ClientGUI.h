@@ -27,6 +27,7 @@ namespace CommAudio {
 			//TODO: Add the constructor code here
 			//
 		}
+		void UpdateClientStatus(String ^);
 
 	protected:
 		/// <summary>
@@ -177,8 +178,10 @@ namespace CommAudio {
 			// 
 			// menuStrip1
 			// 
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->fileToolStripMenuItem, 
-				this->playToolStripMenuItem, this->optionToolStripMenuItem});
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
+				this->fileToolStripMenuItem,
+					this->playToolStripMenuItem, this->optionToolStripMenuItem
+			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
 			this->menuStrip1->Padding = System::Windows::Forms::Padding(4, 2, 0, 2);
@@ -188,8 +191,10 @@ namespace CommAudio {
 			// 
 			// fileToolStripMenuItem
 			// 
-			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->connectToolStripMenuItem, 
-				this->exitToolStripMenuItem});
+			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				this->connectToolStripMenuItem,
+					this->exitToolStripMenuItem
+			});
 			this->fileToolStripMenuItem->Name = L"fileToolStripMenuItem";
 			this->fileToolStripMenuItem->Size = System::Drawing::Size(37, 20);
 			this->fileToolStripMenuItem->Text = L"File";
@@ -208,7 +213,7 @@ namespace CommAudio {
 			// 
 			// playToolStripMenuItem
 			// 
-			this->playToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->playToolStripMenuItem1});
+			this->playToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->playToolStripMenuItem1 });
 			this->playToolStripMenuItem->Name = L"playToolStripMenuItem";
 			this->playToolStripMenuItem->Size = System::Drawing::Size(41, 20);
 			this->playToolStripMenuItem->Text = L"Play";
@@ -221,7 +226,7 @@ namespace CommAudio {
 			// 
 			// optionToolStripMenuItem
 			// 
-			this->optionToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->soundToolStripMenuItem});
+			this->optionToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->soundToolStripMenuItem });
 			this->optionToolStripMenuItem->Name = L"optionToolStripMenuItem";
 			this->optionToolStripMenuItem->Size = System::Drawing::Size(56, 20);
 			this->optionToolStripMenuItem->Text = L"Option";
@@ -363,42 +368,41 @@ namespace CommAudio {
 #pragma endregion
 
 
-private: System::Void connect_button_Click(System::Object^  sender, System::EventArgs^  e) {
-			 
-			 PCHAR textbox_ip_string;
-			 PCHAR textbox_portnumber_string;
-			 INT   textbox_portnumber_int;
+	private: System::Void connect_button_Click(System::Object^  sender, System::EventArgs^  e) {
 
-		   DWORD connectThreadId;
+				 PCHAR textbox_ip_string;
+				 PCHAR textbox_portnumber_string;
+				 INT   textbox_portnumber_int;
 
-			 textbox_ip_string					= (PCHAR)(PVOID)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_ip->Text);
-			 textbox_portnumber_string	= (PCHAR)(PVOID)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_portnumber->Text);
-			 textbox_portnumber_int			= atoi(textbox_portnumber_string);
-	
-			 si = (SocketInformation*)calloc(1, sizeof(SocketInformation));
-			 si->world = (World*)calloc(1, sizeof(World));
+				 DWORD connectThreadId;
 
-			 strcpy_s(si->world->sockSessn.ip, MAXBUFLEN, textbox_ip_string);
-			 si->world->sockSessn.portNumber = textbox_portnumber_int;
-			 si->world->clientOrServer = CLIENT;
+				 textbox_ip_string = (PCHAR)(PVOID)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_ip->Text);
+				 textbox_portnumber_string = (PCHAR)(PVOID)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(textbox_portnumber->Text);
+				 textbox_portnumber_int = atoi(textbox_portnumber_string);
 
-			if(initWorld(si->world)) {
-				CreateThread(0, 0, retrieveSessionFromServer, (LPVOID)si, 0, &connectThreadId);
-			}
+				 si = (SocketInformation*)calloc(1, sizeof(SocketInformation));
+				 si->world = (World*)calloc(1, sizeof(World));
+
+				 strcpy_s(si->world->sockSessn.ip, MAXBUFLEN, textbox_ip_string);
+				 si->world->sockSessn.portNumber = textbox_portnumber_int;
+				 si->world->clientOrServer = CLIENT;
+
+				 if (initWorld(si->world)) {
+					 CreateThread(0, 0, retrieveSessionFromServer, (LPVOID)si, 0, &connectThreadId);
+				 }
 	}
 	private: System::Void ClientGUI_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
 				 Application::Exit();
-			 }
-private: System::Void play_button_Click(System::Object^  sender, System::EventArgs^  e) {
-			 HSTREAM streamHandle; // Handle for open stream
+	}
+	private: System::Void play_button_Click(System::Object^  sender, System::EventArgs^  e) {
+				 HSTREAM streamHandle; // Handle for open stream
 
-			 // Initialize BASS with default sound device and 44100Hz Sample rate
-			 BASS_Init(-1, 44100, 0, 0, NULL);
+				 // Initialize BASS with default sound device and 44100Hz Sample rate
+				 BASS_Init(-1, 44100, 0, 0, NULL);
 
-			 // Load your soundfile and play it
-			 streamHandle = BASS_StreamCreateFile(FALSE, "ladygaga.wav", 0, 0, 0);
-			 BASS_ChannelPlay(streamHandle, FALSE);
-}
-
-};
+				 // Load your soundfile and play it
+				 streamHandle = BASS_StreamCreateFile(FALSE, "ladygaga.wav", 0, 0, 0);
+				 BASS_ChannelPlay(streamHandle, FALSE);
+	}
+	};
 }

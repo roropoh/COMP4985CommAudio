@@ -30,11 +30,17 @@ INT initServer(UnicastComponent* sockSessn);
 DWORD WINAPI retrieveSessionFromServer(LPVOID pVoid);
 INT initClient(UnicastComponent* sockSessn);
 
-
 //Media.cpp
 HSTREAM initBass();
 HSTREAM initBass(CHAR* fileName);
 BOOL ripSongPacket(CHAR* packet, HSTREAM streamHandle);
 BOOL playSongPacket(CHAR* packet, HSTREAM streamHandle);
+
+
+// ClientGUI.cpp
+BOOL CALLBACK RecordingCallback(HRECORD handle, const void *buffer, DWORD length, void *user);
+void StartRecording();
+void StopRecording();
+BOOL InitDevice(int device);
 
 #endif

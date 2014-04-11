@@ -1,5 +1,6 @@
 #include "MyForm.h"
 #include "bass.h"
+#include "ClientGUI.h"
 
 using namespace std;
 using namespace CommAudio;

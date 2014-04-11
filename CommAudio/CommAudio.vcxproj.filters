@@ -7,27 +7,24 @@
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="ServerSession.cpp" />
     <ClCompile Include="Shared.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Media.cpp" />
+=======
+    <ClCompile Include="ClientGUI.cpp" />
+>>>>>>> 481e159eb754b566e7d5a001129a15dc6a79cf73
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClientGUI.h" />
+    <ClInclude Include="Components.h" />
+    <ClInclude Include="GlobalShared.h" />
+    <ClInclude Include="Master.h" />
     <ClInclude Include="MyForm.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ServerGUI.h" />
-    <ClInclude Include="Components.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SmallStructs.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Master.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="GlobalShared.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
+    <ClInclude Include="SmallStructs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CommAudio.rc" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ClientGUI.resx" />
@@ -35,18 +32,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Headers">
-      <UniqueIdentifier>{01ee9cbe-3cbd-44d6-b4ad-2f983abcb925}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources">
-      <UniqueIdentifier>{8dbcc41a-d2da-49da-92a2-40b6f177cdbc}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="CommAudio.rc">
-      <Filter>Resources</Filter>
-    </ResourceCompile>
   </ItemGroup>
 </Project>
