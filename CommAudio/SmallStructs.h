@@ -12,6 +12,7 @@ typedef struct {
 	WSABUF		 * dataBuf;
 	WSAEVENT	 * wsaEvent;
 	World * world;
+	HSTREAM streamHandle;
 } SocketInformation;
 
 typedef struct {

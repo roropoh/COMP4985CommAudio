@@ -270,24 +270,30 @@ namespace CommAudio {
 #pragma endregion
 	private: System::Void play_button_Click(System::Object^  sender, System::EventArgs^  e) {
 
-				 FLOAT* packet = (FLOAT*)calloc(PACKETSIZE, sizeof(FLOAT));
+				 CHAR* packet = (CHAR*)calloc(PACKETSIZE, sizeof(CHAR));
 
 				 streamHandle = initBass(fileName);
-				 ripSongPacket(packet, streamHandle);
+
+				 BASS_StreamPutData(streamHandle, packet, PACKETSIZE);	
+				 BASS_ChannelPlay(streamHandle, FALSE);
+	}
+
+	private: void openFile() {
+		OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
+		openFileDialog1->Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+		openFileDialog1->FilterIndex = 2;
+		openFileDialog1->RestoreDirectory = true;
+
+		if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK){
+			fileName = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(openFileDialog1->FileName);
+
+			//fileName_string = gcnew System::String(fileName);
+			songlist->Items->Add(openFileDialog1->SafeFileName);
+		}
 	}
 
 	private: System::Void openfile_button_Click(System::Object^  sender, System::EventArgs^  e) {
-				 OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
-				 openFileDialog1->Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-				 openFileDialog1->FilterIndex = 2;
-				 openFileDialog1->RestoreDirectory = true;
-
-				 if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK){
-					 fileName = (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(openFileDialog1->FileName);
-
-					 //fileName_string = gcnew System::String(fileName);
-					 songlist->Items->Add(openFileDialog1->SafeFileName);
-				 }
+					openFile();
 	}
 	private: System::Void ServerGUI_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
 				 Application::Exit();
@@ -298,12 +304,15 @@ namespace CommAudio {
 
 				 world = (World*)calloc(1, sizeof(World));
 
+				 if(fileName == 0)
+					 openFile();
+
 				 strcpy_s(world->media.fileName, MAXBUFLEN, fileName);
 
 				 world->clientOrServer = SERVER;
 				 world->sockSessn.portNumber = DEFAULT_SERVERPORT;
 
-				 strcpy_s(world->sockMulti.ip, "235.100.24.55");
+				 strcpy_s(world->sockMulti.ip, "233.8.9.7");
 
 				 if (initWorld(world)) {
 					 CreateThread(0, 0, waitForConnections, (LPVOID)world, 0, &waitThreadId);

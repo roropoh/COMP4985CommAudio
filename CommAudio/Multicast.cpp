@@ -31,8 +31,8 @@ DWORD WINAPI sendMulticast(LPVOID pVoid)
 	DWORD flags = 0;
 
 
-	FLOAT packet[MAXBUFLEN];
-	ripSongPacket(packet, msi.streamHandle);
+	CHAR packet[MAXBUFLEN];
+	if(! ripSongPacket(packet, msi.streamHandle));// return TRUE;
 	strcpy(msi.buffer, (CHAR*)packet);
 
 
@@ -62,7 +62,7 @@ void CALLBACK doSendMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 	DWORD sentBytes = 0;
 	DWORD flags = 0;
 
-	FLOAT packet[MAXBUFLEN];
+	CHAR packet[MAXBUFLEN];
 	//si -> bytesSent += bytesTransferred;
 
 	if (error != 0 || bytesTransferred == 0)
@@ -73,6 +73,8 @@ void CALLBACK doSendMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 
 	ripSongPacket(packet, msi->streamHandle);
 	strcpy(msi->buffer, (CHAR*)packet);
+
+	Sleep(500);
 
 	if (WSASendTo((msi->workSock), msi->dataBuf, 1, &sentBytes, flags, (SOCKADDR*)msi->dstAddr, msi->dstAddrLen, &msi->overlapped, doSendMulticastWork) == SOCKET_ERROR)	{
 		if (GetLastError() != WSA_IO_PENDING)
@@ -91,9 +93,13 @@ DWORD WINAPI recvMulticast(LPVOID pVoid) {
 
 	SocketInformation *si = (SocketInformation*)pVoid;
 	World *world = si->world;
+	
+	si->streamHandle = initBass();
 
 	DWORD recvBytes = 0;
 	DWORD flags = 0;
+
+
 
 	if (!initMulticastComponent(&world->sockMulti, createClientBoundMulticastSocket))
 		return FALSE;
@@ -131,6 +137,7 @@ VOID CALLBACK doRecvMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 		return;
 	}
 
+	playSongPacket(world->buffs.buffer, si->streamHandle);
 
 	if (WSARecvFrom(world->sockMulti.workSock, world->buffs.dataBuf, 1, &recvBytes, &flags, (SOCKADDR*)&world->sockMulti.lclAddr, &world->sockMulti.lclAddrLen, &si->overlapped, doRecvMulticastWork) == SOCKET_ERROR)
 	{
@@ -184,6 +191,7 @@ INT createServerBoundMulticastSocket(MulticastComponent* mSock)
 
 	if (bind(mSock->workSock, (SOCKADDR*)plclAddr, sizeof(*plclAddr)) == SOCKET_ERROR) {
 		// handle error
+		int err = GetLastError();
 		return FALSE;
 	}
 
@@ -195,12 +203,14 @@ INT createServerBoundMulticastSocket(MulticastComponent* mSock)
 
 	if (setsockopt(mSock->workSock, IPPROTO_IP, IP_MULTICAST_TTL, (PCHAR)&mSock->TTL, sizeof(mSock->TTL))) {
 		// handle error
+		int err = GetLastError();
 		return FALSE;
 	}
 
 
 	if (setsockopt(mSock->workSock, IPPROTO_IP, IP_MULTICAST_LOOP, (PCHAR)&optval, sizeof(optval))) {
 		// handle error
+		int err = GetLastError();
 		return FALSE;
 	}
 

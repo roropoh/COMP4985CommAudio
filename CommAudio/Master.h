@@ -32,7 +32,9 @@ INT initClient(UnicastComponent* sockSessn);
 
 
 //Media.cpp
+HSTREAM initBass();
 HSTREAM initBass(CHAR* fileName);
-VOID ripSongPacket(FLOAT* packet, HSTREAM streamHandle);
+BOOL ripSongPacket(CHAR* packet, HSTREAM streamHandle);
+BOOL playSongPacket(CHAR* packet, HSTREAM streamHandle);
 
 #endif
