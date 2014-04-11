@@ -20,7 +20,7 @@ DWORD WINAPI recvMulticast(LPVOID pVoid); // client
 DWORD WINAPI sendMulticast(LPVOID pVoid); // server
 INT createServerBoundMulticastSocket(MulticastComponent* sockMulti);
 INT createClientBoundMulticastSocket(MulticastComponent* sockMulti);
-
+DWORD WINAPI recvMulticastTheOldFashionedWay(LPVOID pVoid);
 
 // ServerSession.cpp
 DWORD WINAPI waitForConnections(LPVOID pVoid);

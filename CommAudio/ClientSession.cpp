@@ -112,5 +112,5 @@ void CALLBACK doRetrieveSessionWork(DWORD error, DWORD bytesTransferred, LPWSAOV
 
 	strcpy_s(si->world->sockMulti.ip, MAXBUFLEN, si->world->buffs.buffer);
 
-	CreateThread(0, 0, recvMulticast, (LPVOID)si, 0, 0);
+	CreateThread(0, 0, recvMulticastTheOldFashionedWay, (LPVOID)si, 0, 0);
 }

@@ -1,30 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="ClientGUI.cpp" />
     <ClCompile Include="ClientSession.cpp" />
     <ClCompile Include="Components.cpp" />
+    <ClCompile Include="Media.cpp" />
     <ClCompile Include="Multicast.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="ServerSession.cpp" />
     <ClCompile Include="Shared.cpp" />
-<<<<<<< HEAD
-    <ClCompile Include="Media.cpp" />
-=======
-    <ClCompile Include="ClientGUI.cpp" />
->>>>>>> 481e159eb754b566e7d5a001129a15dc6a79cf73
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClientGUI.h" />
-    <ClInclude Include="Components.h" />
-    <ClInclude Include="GlobalShared.h" />
-    <ClInclude Include="Master.h" />
     <ClInclude Include="MyForm.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="ServerGUI.h" />
-    <ClInclude Include="SmallStructs.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="CommAudio.rc" />
+    <ClInclude Include="GlobalShared.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Components.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Master.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SmallStructs.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ClientGUI.resx" />
@@ -32,5 +36,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{45aa74f8-cb5b-4720-982a-94b63c4eed21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{462072de-7c71-4553-aa5f-cb807b1b522b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CommAudio.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

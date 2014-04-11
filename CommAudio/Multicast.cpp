@@ -88,17 +88,44 @@ void CALLBACK doSendMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 }
 
 
+DWORD WINAPI recvMulticastTheOldFashionedWay(LPVOID pVoid)
+{
+	SocketInformation *si = (SocketInformation*)pVoid;
+	World *world = si->world;
+	DWORD recvBytes = 0;
+	DWORD flags = 0;
+
+	si->streamHandle = initBass();
+
+	if (!initMulticastComponent(&world->sockMulti, createClientBoundMulticastSocket))
+		return FALSE;
+
+	CHAR buf[PACKETSIZE + PACKETSIZE + PACKETSIZE];
+
+	while (TRUE) {
+		if (recvfrom(world->sockMulti.workSock, buf, 1, flags, (SOCKADDR*)&world->sockMulti.lclAddr, &world->sockMulti.lclAddrLen) == SOCKET_ERROR)
+		{
+			int err = GetLastError();
+			return FALSE;
+		}
+
+		playSongPacket(buf, si->streamHandle);
+
+	}
+
+	return TRUE;
+}
+
 
 DWORD WINAPI recvMulticast(LPVOID pVoid) {
 
 	SocketInformation *si = (SocketInformation*)pVoid;
 	World *world = si->world;
-	
+
 	si->streamHandle = initBass();
 
 	DWORD recvBytes = 0;
 	DWORD flags = 0;
-
 
 
 	if (!initMulticastComponent(&world->sockMulti, createClientBoundMulticastSocket))
@@ -115,7 +142,7 @@ DWORD WINAPI recvMulticast(LPVOID pVoid) {
 			}
 		}
 
-		if (waitForWSAEventToComplete(&world->sockMulti.wsaEvent) == FALSE) return FALSE;
+		playSongPacket(world->buffs.buffer, si->streamHandle);
 	}
 	return 0;
 }
@@ -228,6 +255,7 @@ INT createClientBoundMulticastSocket(MulticastComponent* mSock)
 	mSock->workSock = socket(AF_INET, SOCK_DGRAM, 0);
 	if (setsockopt(mSock->workSock, SOL_SOCKET, SO_REUSEADDR, (CHAR*)&optval, sizeof(optval))) {
 		// handle error
+		int err = GetLastError();
 		return FALSE;
 	}
 
@@ -239,6 +267,7 @@ INT createClientBoundMulticastSocket(MulticastComponent* mSock)
 
 	if (bind(mSock->workSock, (SOCKADDR*)plclAddr, sizeof(*plclAddr))) {
 		// handle error
+		int err = GetLastError();
 		return FALSE;
 	}
 
