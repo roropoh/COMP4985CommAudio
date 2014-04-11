@@ -20,7 +20,7 @@ HSTREAM initBass(CHAR* fileName)
 	BASS_Init(-1, 44100, 0, 0, NULL);
 
 	// Load your soundfile and play it
-	streamHandle = BASS_StreamCreateFile(FALSE, fileName, 0, 0, BASS_SAMPLE_LOOP);
+	streamHandle = BASS_StreamCreateFile(FALSE, "C:\\Users\\pc1\\Documents\\GitHub\\COMP4985CommAudio\\CommAudio\\ladyGaga.mp3", 0, 0, BASS_SAMPLE_LOOP | BASS_STREAM_DECODE);
 
 	return streamHandle;
 }
@@ -41,4 +41,13 @@ BOOL playSongPacket(CHAR* packet, HSTREAM streamHandle)
 	BASS_ChannelPlay(streamHandle, FALSE);
 
 	return TRUE;
+}
+
+DWORD WINAPI play(LPVOID pVoid) {
+
+	HSTREAM *stream = (HSTREAM*)pVoid;
+
+	BASS_ChannelPlay(*stream, FALSE);
+	int er = BASS_ErrorGetCode();
+	return false;
 }

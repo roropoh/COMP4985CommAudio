@@ -35,7 +35,7 @@ HSTREAM initBass();
 HSTREAM initBass(CHAR* fileName);
 BOOL ripSongPacket(CHAR* packet, HSTREAM streamHandle);
 BOOL playSongPacket(CHAR* packet, HSTREAM streamHandle);
-
+DWORD WINAPI play(LPVOID pVoid);
 
 // ClientGUI.cpp
 BOOL CALLBACK RecordingCallback(HRECORD handle, const void *buffer, DWORD length, void *user);

@@ -304,6 +304,7 @@ namespace CommAudio {
 
 				 world = (World*)calloc(1, sizeof(World));
 
+
 				 if(fileName == 0)
 					 openFile();
 
