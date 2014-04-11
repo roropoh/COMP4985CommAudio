@@ -419,6 +419,7 @@ namespace CommAudio {
 			 }
 	private: System::Void stop_button_Click(System::Object^  sender, System::EventArgs^  e) {
 				 StopRecording();
+				 StopSaveFile();
 			 }
 	};
 }

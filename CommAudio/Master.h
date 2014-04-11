@@ -3,6 +3,7 @@
 
 #include "Components.h"
 #include "SmallStructs.h"
+#include "WriteToFile.h"
 
 // Shared.cpp
 void initWSA();

@@ -1,4 +1,5 @@
 #include "Master.h"
+#include "WriteToFile.h"
 
 #include <stdio.h>
 
@@ -106,6 +107,8 @@ DWORD WINAPI recvMulticast(LPVOID pVoid)
 
 	int error = initBass(&stream);
 
+	CreateFileHeader(stream);
+
 
 	while (TRUE)
 	{
@@ -141,6 +144,8 @@ VOID CALLBACK doRecvMulticastWork(DWORD error, DWORD bytesTransferred, LPWSAOVER
 	}
 
 	int err = playSongPacket(&stream, si->buffer);
+
+	SaveFile(*si->dataBuf);
 
 	if (WSARecvFrom(world->sockMulti.workSock, si->dataBuf, 1, &recvBytes, &flags, (SOCKADDR*)&world->sockMulti.lclAddr, &world->sockMulti.lclAddrLen, &si->overlapped, doRecvMulticastWork) == SOCKET_ERROR)
 	{
