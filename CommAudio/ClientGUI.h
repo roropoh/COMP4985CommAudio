@@ -76,6 +76,7 @@ namespace CommAudio {
 	private: System::Windows::Forms::ToolStripMenuItem^  exitToolStripMenuItem;
 	private: System::Windows::Forms::TextBox^  client_status_box;
 	private: System::Windows::Forms::Label^  label3;
+	private: System::Windows::Forms::Button^  recordVoiceButton;
 
 
 
@@ -122,13 +123,14 @@ namespace CommAudio {
 			this->textbox_portnumber = (gcnew System::Windows::Forms::TextBox());
 			this->client_status_box = (gcnew System::Windows::Forms::TextBox());
 			this->label3 = (gcnew System::Windows::Forms::Label());
+			this->recordVoiceButton = (gcnew System::Windows::Forms::Button());
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// play_button
 			// 
 			this->play_button->Location = System::Drawing::Point(76, 212);
-			this->play_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->play_button->Margin = System::Windows::Forms::Padding(2);
 			this->play_button->Name = L"play_button";
 			this->play_button->Size = System::Drawing::Size(56, 19);
 			this->play_button->TabIndex = 1;
@@ -139,7 +141,7 @@ namespace CommAudio {
 			// rew_button
 			// 
 			this->rew_button->Location = System::Drawing::Point(16, 212);
-			this->rew_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->rew_button->Margin = System::Windows::Forms::Padding(2);
 			this->rew_button->Name = L"rew_button";
 			this->rew_button->Size = System::Drawing::Size(56, 19);
 			this->rew_button->TabIndex = 2;
@@ -149,7 +151,7 @@ namespace CommAudio {
 			// pause_button
 			// 
 			this->pause_button->Location = System::Drawing::Point(137, 212);
-			this->pause_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->pause_button->Margin = System::Windows::Forms::Padding(2);
 			this->pause_button->Name = L"pause_button";
 			this->pause_button->Size = System::Drawing::Size(56, 19);
 			this->pause_button->TabIndex = 3;
@@ -159,17 +161,18 @@ namespace CommAudio {
 			// stop_button
 			// 
 			this->stop_button->Location = System::Drawing::Point(198, 212);
-			this->stop_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->stop_button->Margin = System::Windows::Forms::Padding(2);
 			this->stop_button->Name = L"stop_button";
 			this->stop_button->Size = System::Drawing::Size(56, 19);
 			this->stop_button->TabIndex = 4;
 			this->stop_button->Text = L"stop";
 			this->stop_button->UseVisualStyleBackColor = true;
+			this->stop_button->Click += gcnew System::EventHandler(this, &ClientGUI::stop_button_Click);
 			// 
 			// fwd_button
 			// 
 			this->fwd_button->Location = System::Drawing::Point(259, 212);
-			this->fwd_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->fwd_button->Margin = System::Windows::Forms::Padding(2);
 			this->fwd_button->Name = L"fwd_button";
 			this->fwd_button->Size = System::Drawing::Size(56, 19);
 			this->fwd_button->TabIndex = 5;
@@ -178,10 +181,8 @@ namespace CommAudio {
 			// 
 			// menuStrip1
 			// 
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
-				this->fileToolStripMenuItem,
-					this->playToolStripMenuItem, this->optionToolStripMenuItem
-			});
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->fileToolStripMenuItem, 
+				this->playToolStripMenuItem, this->optionToolStripMenuItem});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
 			this->menuStrip1->Padding = System::Windows::Forms::Padding(4, 2, 0, 2);
@@ -191,10 +192,8 @@ namespace CommAudio {
 			// 
 			// fileToolStripMenuItem
 			// 
-			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
-				this->connectToolStripMenuItem,
-					this->exitToolStripMenuItem
-			});
+			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->connectToolStripMenuItem, 
+				this->exitToolStripMenuItem});
 			this->fileToolStripMenuItem->Name = L"fileToolStripMenuItem";
 			this->fileToolStripMenuItem->Size = System::Drawing::Size(37, 20);
 			this->fileToolStripMenuItem->Text = L"File";
@@ -213,7 +212,7 @@ namespace CommAudio {
 			// 
 			// playToolStripMenuItem
 			// 
-			this->playToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->playToolStripMenuItem1 });
+			this->playToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->playToolStripMenuItem1});
 			this->playToolStripMenuItem->Name = L"playToolStripMenuItem";
 			this->playToolStripMenuItem->Size = System::Drawing::Size(41, 20);
 			this->playToolStripMenuItem->Text = L"Play";
@@ -226,7 +225,7 @@ namespace CommAudio {
 			// 
 			// optionToolStripMenuItem
 			// 
-			this->optionToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->soundToolStripMenuItem });
+			this->optionToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->soundToolStripMenuItem});
 			this->optionToolStripMenuItem->Name = L"optionToolStripMenuItem";
 			this->optionToolStripMenuItem->Size = System::Drawing::Size(56, 20);
 			this->optionToolStripMenuItem->Text = L"Option";
@@ -241,7 +240,7 @@ namespace CommAudio {
 			// 
 			this->songlist->FormattingEnabled = true;
 			this->songlist->Location = System::Drawing::Point(16, 242);
-			this->songlist->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->songlist->Margin = System::Windows::Forms::Padding(2);
 			this->songlist->Name = L"songlist";
 			this->songlist->Size = System::Drawing::Size(361, 147);
 			this->songlist->TabIndex = 8;
@@ -249,7 +248,7 @@ namespace CommAudio {
 			// progressBar1
 			// 
 			this->progressBar1->Location = System::Drawing::Point(16, 186);
-			this->progressBar1->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->progressBar1->Margin = System::Windows::Forms::Padding(2);
 			this->progressBar1->Name = L"progressBar1";
 			this->progressBar1->Size = System::Drawing::Size(299, 19);
 			this->progressBar1->TabIndex = 9;
@@ -257,7 +256,7 @@ namespace CommAudio {
 			// shuffle_button
 			// 
 			this->shuffle_button->Location = System::Drawing::Point(320, 142);
-			this->shuffle_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->shuffle_button->Margin = System::Windows::Forms::Padding(2);
 			this->shuffle_button->Name = L"shuffle_button";
 			this->shuffle_button->Size = System::Drawing::Size(56, 19);
 			this->shuffle_button->TabIndex = 10;
@@ -267,7 +266,7 @@ namespace CommAudio {
 			// connect_button
 			// 
 			this->connect_button->Location = System::Drawing::Point(198, 57);
-			this->connect_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->connect_button->Margin = System::Windows::Forms::Padding(2);
 			this->connect_button->Name = L"connect_button";
 			this->connect_button->Size = System::Drawing::Size(56, 19);
 			this->connect_button->TabIndex = 0;
@@ -298,7 +297,7 @@ namespace CommAudio {
 			// textbox_ip
 			// 
 			this->textbox_ip->Location = System::Drawing::Point(85, 31);
-			this->textbox_ip->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->textbox_ip->Margin = System::Windows::Forms::Padding(2);
 			this->textbox_ip->Name = L"textbox_ip";
 			this->textbox_ip->Size = System::Drawing::Size(170, 20);
 			this->textbox_ip->TabIndex = 13;
@@ -307,7 +306,7 @@ namespace CommAudio {
 			// textbox_portnumber
 			// 
 			this->textbox_portnumber->Location = System::Drawing::Point(85, 56);
-			this->textbox_portnumber->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->textbox_portnumber->Margin = System::Windows::Forms::Padding(2);
 			this->textbox_portnumber->Name = L"textbox_portnumber";
 			this->textbox_portnumber->Size = System::Drawing::Size(76, 20);
 			this->textbox_portnumber->TabIndex = 14;
@@ -317,7 +316,7 @@ namespace CommAudio {
 			// 
 			this->client_status_box->Enabled = false;
 			this->client_status_box->Location = System::Drawing::Point(16, 98);
-			this->client_status_box->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->client_status_box->Margin = System::Windows::Forms::Padding(2);
 			this->client_status_box->Multiline = true;
 			this->client_status_box->Name = L"client_status_box";
 			this->client_status_box->Size = System::Drawing::Size(300, 76);
@@ -333,11 +332,22 @@ namespace CommAudio {
 			this->label3->TabIndex = 16;
 			this->label3->Text = L"Status";
 			// 
+			// recordVoiceButton
+			// 
+			this->recordVoiceButton->Location = System::Drawing::Point(320, 56);
+			this->recordVoiceButton->Name = L"recordVoiceButton";
+			this->recordVoiceButton->Size = System::Drawing::Size(60, 19);
+			this->recordVoiceButton->TabIndex = 17;
+			this->recordVoiceButton->Text = L"voice";
+			this->recordVoiceButton->UseVisualStyleBackColor = true;
+			this->recordVoiceButton->Click += gcnew System::EventHandler(this, &ClientGUI::recordVoiceButton_Click);
+			// 
 			// ClientGUI
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(392, 396);
+			this->Controls->Add(this->recordVoiceButton);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->client_status_box);
 			this->Controls->Add(this->textbox_portnumber);
@@ -355,7 +365,7 @@ namespace CommAudio {
 			this->Controls->Add(this->play_button);
 			this->Controls->Add(this->menuStrip1);
 			this->MainMenuStrip = this->menuStrip1;
-			this->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->Margin = System::Windows::Forms::Padding(2);
 			this->Name = L"ClientGUI";
 			this->Text = L"Comm Audio - Client";
 			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &ClientGUI::ClientGUI_FormClosing);
@@ -390,10 +400,10 @@ namespace CommAudio {
 				 if (initWorld(si->world)) {
 					 CreateThread(0, 0, retrieveSessionFromServer, (LPVOID)si, 0, &connectThreadId);
 				 }
-	}
+			 }
 	private: System::Void ClientGUI_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
 				 Application::Exit();
-	}
+			 }
 	private: System::Void play_button_Click(System::Object^  sender, System::EventArgs^  e) {
 				 HSTREAM streamHandle; // Handle for open stream
 
@@ -403,6 +413,12 @@ namespace CommAudio {
 				 // Load your soundfile and play it
 				 streamHandle = BASS_StreamCreateFile(FALSE, "ladygaga.wav", 0, 0, 0);
 				 BASS_ChannelPlay(streamHandle, FALSE);
-	}
+			 }
+	private: System::Void recordVoiceButton_Click(System::Object^  sender, System::EventArgs^  e) {
+				 StartRecording();
+			 }
+	private: System::Void stop_button_Click(System::Object^  sender, System::EventArgs^  e) {
+				 StopRecording();
+			 }
 	};
 }

@@ -42,7 +42,7 @@ BOOL CALLBACK RecordingCallback(HRECORD handle, const void *buffer, DWORD length
 void StartRecording()
 {
 	BASS_Init(-1, FREQ, 0, 0, NULL);
-	InitDevice(1);
+	InitDevice(0);
 
 	WAVEFORMATEX *wf;
 	if (recbuf) { // free old recording
@@ -86,11 +86,7 @@ void StopRecording()
 	*(DWORD*)(recbuf + 4) = reclen - 8;
 	*(DWORD*)(recbuf + 40) = reclen - 44;
 	// enable "save" button
-	// setup output device (using default device)
-	if (!BASS_Init(-1, FREQ, 0, 0, NULL)) {
-		// Error("Can't initialize output device");
-		return;
-	}
+
 	// create a stream from the recording
 	if (chan = BASS_StreamCreateFile(TRUE, recbuf, 0, reclen, 0)){}
 	//EnableWindow(DLGITEM(11),TRUE); // enable "play" button

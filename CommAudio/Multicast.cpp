@@ -28,7 +28,8 @@ DWORD WINAPI sendMulticast(LPVOID pVoid)
 	strcpy(msi.fileName, world->media.fileName);
 
 
-	int error = initBass(&msi.streamHandle, "C:\\Users\\pc1\\Documents\\GitHub\\COMP4985CommAudio\\CommAudio\\ladygaga.mp3");
+	int error = initBass(&msi.streamHandle, "E:\\Dropbox\\2014 BCIT Winter\\COMP 4985 DataComm Option\\Assignment 4 (Final Project)\\COMP4985CommAudio\\CommAudio\\ladygaga.mp3");
+	
 
 	DWORD sentBytes = 0;
 	DWORD flags = 0;
